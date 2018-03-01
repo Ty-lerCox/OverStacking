@@ -19,7 +19,10 @@ export class List1Page {
       content: ''
     });
     loadingPopup.present();
-      this.ID = this.navParams.get('Id');
+    this.ID = this.navParams.get('Id');
+    if (!this.ID) {
+      this.ID = 0;
+    }
 
       afDB.list<any>('/stacks', ref => ref.orderByChild('category').equalTo(this.ID)).valueChanges().subscribe(data => {
         this.stacks = data;

@@ -22,7 +22,7 @@ export class Create1Page {
   tankCount: number;
   dpsCount: number;
   supportCount: number;
-  error = "No error yet";
+  error: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public afDB: AngularFireDatabase) {
     this.ID = this.navParams.get('Id');
@@ -48,18 +48,22 @@ export class Create1Page {
       return console.log("invalid comp");
     }
     this.stack.category = this.ID;
-    console.log(this.stack.category);
 
-    this.error = "About to pull data";
+    this.error += "About to begin. ";
 
     try {
-      this.afDB.list("stacks").push(this.stack).then(() => {
-        this.navCtrl.push('List1Page', {Id: this.ID });
+      var x = this.afDB.list("stacks");
+      this.error += "ref setup. ";
+      var y = x.push(this.stack).then(() => {
+        this.error += "pulled data. ";
+        this.navCtrl.push('List1Page', { Id: this.ID });
       });
+      this.error += "Didn't in a catch. ";
     }
     catch (error) {
-      this.error = error;
+      this.error += "Ended in a catch. ";
     }
+    this.error += "end. ";
 
 
   }

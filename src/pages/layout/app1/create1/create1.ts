@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
+
 import { IStack } from '../../../../app/app.interfaces';
-import { AngularFireDatabase, FirebaseListObservable , FirebaseObjectObservable} from 'angularfire2/database-deprecated';
 
 /**
  * Generated class for the Create1Page page.
@@ -44,10 +46,9 @@ export class Create1Page {
       return console.log("invalid comp");
     }
     this.stack.category = this.ID;
-    this.afDB.list("stacks").push(this.stack)
-      .then(() => {
-        this.navCtrl.push('List1Page', {Id: this.ID });
-      });
+    console.log(this.stack.category);
+    this.afDB.list("stacks").push(this.stack);
+    this.navCtrl.push('List1Page', {Id: this.ID });
   }
 
   compSelected() {

@@ -1,6 +1,7 @@
 import { Component,ViewChild,ElementRef } from '@angular/core';
 import { IonicPage,NavController, NavParams, ModalController, LoadingController } from 'ionic-angular';
-import { AngularFireDatabase, FirebaseListObservable , FirebaseObjectObservable} from 'angularfire2/database-deprecated';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/operator/map'; // you might need to import this, or not depends on your setup
 // import { GalleryModal } from 'ionic-gallery-modal';
 // declare var google;
@@ -13,12 +14,7 @@ import { AngularFireDatabase, FirebaseListObservable , FirebaseObjectObservable}
 export class List1Page {
   @ViewChild('map') map3Element: ElementRef;
   ID:any;
-  stacks: any[] = [];
-
-  viewMode: string = "map";
-  map: any;
-  mapList: FirebaseListObservable<any[]>;
-  mapListArray : any=[]; 
+  stacks;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController,public loadingCtrl: LoadingController , public afDB: AngularFireDatabase) {
 
@@ -28,12 +24,10 @@ export class List1Page {
     });
     loadingPopup.present();
       this.ID = this.navParams.get('Id');
-      this.afDB.list('/stacks', {query: {
-          orderByChild: "category",
-          equalTo:  parseInt(this.ID)
-      }}).subscribe(listItems => {
-          this.stacks = listItems;
-          loadingPopup.dismiss();
+
+      afDB.list<any>('/stacks', ref => ref.orderByChild('category').equalTo(this.ID)).valueChanges().subscribe(data => {
+        this.stacks = data;
+        loadingPopup.dismiss();
       });
   }
   goToDetail(itemId){

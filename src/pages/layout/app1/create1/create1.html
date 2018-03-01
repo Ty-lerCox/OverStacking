@@ -14,7 +14,6 @@
 
 
 <ion-content padding>
-
   <ion-list *ngIf="stack">
     <ion-item>
       <ion-label color="black" stacked>Stack Description</ion-label>
@@ -78,21 +77,21 @@
         <ion-option value="Zenyatta">Zenyatta</ion-option>
       </ion-select>
     </ion-item>
-      
+
     <ion-list-header>
         Skill Range
       <ion-badge item-end color="tango-sky-blue">{{stack.skill_range.lower}}</ion-badge>
       <ion-badge item-end color="tango-sky-blue">{{stack.skill_range.upper}}</ion-badge>
     </ion-list-header>
-      <ion-range min="500" max="4500" step="100" snaps="true" dualKnobs="true" pin="true" [(ngModel)]="stack.skill_range" color="tango-sky-blue">
-        <ion-label range-left>500</ion-label>
-        <ion-label range-right>4500</ion-label>
-      </ion-range>
-    </ion-list>
+    <ion-range min="500" max="4500" step="100" snaps="true" dualKnobs="true" pin="true" [(ngModel)]="stack.skill_range" color="tango-sky-blue">
+      <ion-label range-left>500</ion-label>
+      <ion-label range-right>4500</ion-label>
+    </ion-range>
+  </ion-list>
 
-    <ion-footer>
-      <div padding>
-        <button color="tango-sky-blue" ion-button full (click)="createStack()">Create Stack</button>
-      </div>
-    </ion-footer>
+  <ion-footer>
+    <div padding>
+      <button color="tango-sky-blue" ion-button full (click)="createStack()">Create Stack</button>
+    </div> 
+  </ion-footer>
 </ion-content>

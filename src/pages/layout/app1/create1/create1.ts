@@ -54,6 +54,7 @@ export class Create1Page {
     try {
       var x = this.afDB.list("stacks");
       this.error += "ref setup. ";
+      this.error += this.stack;
       x.push(this.stack).then(() => {
         this.error += "pulled data. ";
         this.navCtrl.push('List1Page', { Id: this.ID });

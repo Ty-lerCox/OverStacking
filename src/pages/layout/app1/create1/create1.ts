@@ -50,6 +50,7 @@ export class Create1Page {
     this.stack.category = this.ID;
     console.log(this.stack.category);
 
+    this.error = "About to pull data";
 
     try {
       this.afDB.list("stacks").push(this.stack).then(() => {

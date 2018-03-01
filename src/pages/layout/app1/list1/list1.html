@@ -1,0 +1,46 @@
+
+<ion-header>
+    <ion-navbar color="flat-wet-asphalt">
+        <button ion-button menuToggle >
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            Overwatch Stacks
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <!--*********** Fab  ***********-->
+    <ion-fab bottom right>
+      <button ion-fab color="gray" (click)="createNewStack()"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+
+  <!--*********** List  ***********-->
+  <ion-card *ngFor="let stack of stacks">      
+    <ion-card-content>
+      <h1>
+        {{stack.description}}
+      </h1>
+      <p style="margin-top:25px;">
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.type }}</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.comp }}</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.tank_heroes }}</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.dps_heroes }}</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.support_heroes }}</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.skill_range.lower }} - {{ stack.skill_range.upper }} SR</ion-badge>
+      </p>
+    </ion-card-content>
+    
+    <ion-row>
+        <ion-col center text-center> 
+          <button ion-button icon-left clear color="pink">     
+            <div>Join Stack</div>
+          </button>
+        </ion-col>
+    </ion-row>
+
+  </ion-card>
+
+</ion-content>

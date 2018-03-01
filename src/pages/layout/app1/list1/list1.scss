@@ -1,0 +1,32 @@
+page-list1 {
+  .content {
+      background-color:#eee;
+  }
+  ion-badge {
+      padding: 3px 8px;
+      text-align: center;
+      display: inline-block;
+      min-width: 10px;
+      font-size: 1.2rem;
+      font-weight: 100;
+      line-height: 1;
+      white-space: nowrap;
+      vertical-align: baseline;
+  }
+  //********** Star rating  ************//
+  ul {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+
+    &.rating li {
+      padding: 5px 1px !important;
+      background: none;
+      color: #ffb400;
+
+      ion-icon {
+        font-size: 15px;
+      }
+    }
+  }
+}

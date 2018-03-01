@@ -1,0 +1,98 @@
+<!--
+  Generated template for the Create1Page page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="flat-wet-asphalt">
+    <ion-title>Create New Stack</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list *ngIf="stack">
+    <ion-item>
+      <ion-label color="black" stacked>Stack Description</ion-label>
+      <ion-input type="text" [(ngModel)]="stack.description"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="black" stacked>Stack Type</ion-label>
+      <ion-select [(ngModel)]="stack.type">
+          <ion-option value="Competitive">Competitive</ion-option>
+          <ion-option value="Quickplay">Quickplay</ion-option>
+          <ion-option value="Arcade">Arcade</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="black" stacked>Stack Comp</ion-label>
+      <ion-select [(ngModel)]="stack.comp" (ionChange)="compSelected()">
+        <ion-option value="2-2-2 (2 tanks, 2 dps, 2 support)">2-2-2 (2 tanks, 2 dps, 2 support)</ion-option>
+        <ion-option value="1-4-2 (1 tank, 4 dps, 2 support)">1-4-2 (1 tank, 4 dps, 2 support)</ion-option>
+        <ion-option value="4-0-2 (4 tanks, 2 support)">4-0-2 (4 tanks, 2 support)</ion-option>
+        </ion-select>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label color="black" stacked>Required Tank Heroes</ion-label>
+      <ion-select multiple="true" [(ngModel)]="stack.tank_heroes">
+        <ion-option value="D.Va">D.Va</ion-option>
+        <ion-option value="Orisa">Orisa</ion-option>
+        <ion-option value="Reinhardt">Reinhardt</ion-option>
+        <ion-option value="Roadhog">Roadhog</ion-option>
+        <ion-option value="Winston">Winston</ion-option>
+        <ion-option value="Zarya">Zarya</ion-option>
+        </ion-select>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label color="black" stacked>Required DPS Heroes</ion-label>
+      <ion-select multiple="true" [(ngModel)]="stack.dps_heroes">
+        <ion-option value="Doomfist">Doomfist</ion-option>
+        <ion-option value="Genji">Genji</ion-option>
+        <ion-option value="Hanzo">Hanzo</ion-option>
+        <ion-option value="Junkrat">Junkrat</ion-option>
+        <ion-option value="McCree">McCree</ion-option>
+        <ion-option value="Pharah">Pharah</ion-option>
+        <ion-option value="Reaper">Reaper</ion-option>
+        <ion-option value="Soldier: 76">Soldier: 76</ion-option>
+        <ion-option value="Sombra">Sombra</ion-option>
+        <ion-option value="Tracer">Tracer</ion-option>
+        <ion-option value="Widowmaker">Widowmaker</ion-option>
+      </ion-select>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label color="black" stacked>Required Support Heroes</ion-label>
+      <ion-select multiple="true" [(ngModel)]="stack.support_heroes">
+        <ion-option value="Ana">Ana</ion-option>
+        <ion-option value="Lúcio">Lúcio</ion-option>
+        <ion-option value="Mercy">Mercy</ion-option>
+        <ion-option value="Moira">Moira</ion-option>
+        <ion-option value="Zenyatta">Zenyatta</ion-option>
+      </ion-select>
+    </ion-item>
+      
+    <ion-list-header>
+        Skill Range
+      <ion-badge item-end color="tango-sky-blue">{{stack.skill_range.lower}}</ion-badge>
+      <ion-badge item-end color="tango-sky-blue">{{stack.skill_range.upper}}</ion-badge>
+    </ion-list-header>
+      <ion-range min="500" max="4500" step="100" snaps="true" dualKnobs="true" pin="true" [(ngModel)]="stack.skill_range" color="tango-sky-blue">
+        <ion-label range-left>500</ion-label>
+        <ion-label range-right>4500</ion-label>
+      </ion-range>
+    </ion-list>
+
+    <ion-footer>
+      <div padding>
+        <button color="tango-sky-blue" ion-button full (click)="createStack()">Create Stack</button>
+      </div>
+    </ion-footer>
+</ion-content>

@@ -22,7 +22,7 @@ export class Create1Page {
   tankCount: number;
   dpsCount: number;
   supportCount: number;
-
+  error = "No error yet";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public afDB: AngularFireDatabase) {
     this.ID = this.navParams.get('Id');
@@ -49,9 +49,18 @@ export class Create1Page {
     }
     this.stack.category = this.ID;
     console.log(this.stack.category);
-    this.afDB.list("stacks").push(this.stack).then(() => {
-      this.navCtrl.push('List1Page', {Id: this.ID });
-    });
+
+
+    try {
+      this.afDB.list("stacks").push(this.stack).then(() => {
+        this.navCtrl.push('List1Page', {Id: this.ID });
+      });
+    }
+    catch (error) {
+      this.error = error;
+    }
+
+
   }
 
   compSelected() {

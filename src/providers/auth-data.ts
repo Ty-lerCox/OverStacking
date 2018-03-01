@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 
-import { Platform } from 'ionic-angular';
-
 //***********  Facebook **************/
 import { Facebook } from '@ionic-native/facebook';
 

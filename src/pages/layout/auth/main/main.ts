@@ -4,11 +4,6 @@ import { IonicPage, NavController, LoadingController, AlertController } from 'io
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { Platform } from 'ionic-angular';
-//***********  Facebook **************/
-import { Facebook } from '@ionic-native/facebook';
-
-//***********  Google plus **************/
-import { GooglePlus } from '@ionic-native/google-plus';
 
 import { AuthData } from '../../../../providers/auth-data';
 
@@ -23,7 +18,7 @@ export class MainPage {
   public backgroundImage: any = "./assets/bg11.jpg";
   public imgLogo: any = "./assets/ionic.png";
 
-  constructor(public navCtrl: NavController, public authData: AuthData, private platform: Platform, public fb: FormBuilder, public alertCtrl: AlertController,public loadingCtrl: LoadingController,private facebook: Facebook,private googleplus: GooglePlus) {
+  constructor(public navCtrl: NavController, public authData: AuthData, private platform: Platform, public fb: FormBuilder, public alertCtrl: AlertController,public loadingCtrl: LoadingController) {
       let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
       this.loginForm = fb.group({
             email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEXP)])],

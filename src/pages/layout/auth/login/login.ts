@@ -2,16 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, LoadingController, AlertController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { Platform } from 'ionic-angular';
-
-
-//***********  Facebook **************/
-import { Facebook } from '@ionic-native/facebook';
-
-//***********  Google plus **************/
-import { GooglePlus } from '@ionic-native/google-plus';
-
-
 import { AuthData } from '../../../../providers/auth-data';
 
 

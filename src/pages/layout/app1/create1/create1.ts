@@ -44,8 +44,10 @@ export class Create1Page {
       return console.log("invalid comp");
     }
     this.stack.category = this.ID;
-    this.afDB.list("stacks").push(this.stack);
-    this.navCtrl.push('List1Page', {Id: this.ID });
+    this.afDB.list("stacks").push(this.stack)
+      .then(() => {
+        this.navCtrl.push('List1Page', {Id: this.ID });
+      });
   }
 
   compSelected() {

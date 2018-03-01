@@ -25,15 +25,6 @@ export class Category1Page {
     });
   }
 
-  create() {
-    var data = {
-      description: "desc1",
-      category: "0",
-      owner: "ID"
-    } as IStack;
-    this.afDB.list('stacks').push(data);
-  }
-
   //*********** Open list page  **************/
   openList(Id){
       console.log("openList");

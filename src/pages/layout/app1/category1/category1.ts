@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController , ToastController } from 'ionic-angular';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
-import { Observable } from 'rxjs/observable';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { AngularFireDatabase } from 'angularfire2/database';
 
-import { ICategory, IStack } from '../../../../app/app.interfaces'
+import { ICategory } from '../../../../app/app.interfaces'
 
 @IonicPage()
 @Component({
@@ -13,14 +12,14 @@ import { ICategory, IStack } from '../../../../app/app.interfaces'
 export class Category1Page {
   categories;
 
-  constructor(public navCtrl: NavController,public navParams: NavParams,public loadingCtrl: LoadingController, public afDB: AngularFireDatabase ,private toastCtrl: ToastController ) {
+  constructor(public navCtrl: NavController,public navParams: NavParams,public loadingCtrl: LoadingController, public afDB: AngularFireDatabase) {
     let loadingPopup = this.loadingCtrl.create({
       spinner: 'crescent',
       content: ''
     });
     loadingPopup.present();
 
-    afDB.list<any>('/categories').valueChanges().subscribe(data => {
+    afDB.list<ICategory>('/categories').valueChanges().subscribe(data => {
       this.categories = data
       loadingPopup.dismiss();
     });

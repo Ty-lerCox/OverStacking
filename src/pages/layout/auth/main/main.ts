@@ -10,9 +10,6 @@ import { Facebook } from '@ionic-native/facebook';
 //***********  Google plus **************/
 import { GooglePlus } from '@ionic-native/google-plus';
 
-import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
-
 import { AuthData } from '../../../../providers/auth-data';
 
 
@@ -46,7 +43,6 @@ export class MainPage {
     if (this.platform.is('cordova')) {
       this.authData.signInWithFacebook()
       .then( authData => {
-        var resJSON = JSON.stringify(authData);
         this.authData.updateUserProfile(authData.uid,authData.displayName,authData.email,authData.photoURL,authData.phoneNumber)
         loadingPopup.dismiss();
         this.navCtrl.setRoot('AfterLoginPage');

@@ -1,6 +1,6 @@
 import { Component,ViewChild,ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController,ViewController } from 'ionic-angular';
-import { AngularFireDatabase, FirebaseListObservable , FirebaseObjectObservable} from 'angularfire2/database-deprecated';
+import { AngularFireDatabase } from 'angularfire2/database-deprecated';
 import 'rxjs/add/operator/map'; // you might need to import this, or not depends on your setup
 declare var google;
 

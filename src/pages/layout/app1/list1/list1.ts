@@ -1,10 +1,6 @@
 import { Component,ViewChild,ElementRef } from '@angular/core';
 import { IonicPage,NavController, NavParams, ModalController, LoadingController } from 'ionic-angular';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-// import 'rxjs/add/operator/map'; // you might need to import this, or not depends on your setup
-// import { GalleryModal } from 'ionic-gallery-modal';
-// declare var google;
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @IonicPage()
 @Component({

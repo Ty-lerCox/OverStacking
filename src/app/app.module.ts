@@ -23,7 +23,6 @@ import { GooglePlus } from '@ionic-native/google-plus';
 
 //*********** Provider **************/
 import { AuthData } from '../providers/auth-data';
-import { RadioPlayer } from '../providers/radio-service';
 
 
 //************** import image gallery *********************//
@@ -71,8 +70,6 @@ export const config = {
     },
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthData,
-    Facebook,
-    RadioPlayer,
     Facebook,
     GooglePlus
   ]

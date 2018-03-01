@@ -25,9 +25,7 @@ export class LoginPage {
   public backgroundImage: any = "./assets/bg1.jpg";
   public imgLogo: any = "./assets/medium_150.70391061453px_1202562_easyicon.net.png";
 
-  constructor(public navCtrl: NavController, public authData: AuthData, public fb: FormBuilder, public alertCtrl: AlertController,public loadingCtrl: LoadingController,private facebook: Facebook,
-    private googleplus: GooglePlus,
-    private platform: Platform,) {
+  constructor(public navCtrl: NavController, public authData: AuthData, public fb: FormBuilder, public alertCtrl: AlertController,public loadingCtrl: LoadingController) {
       let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
       this.loginForm = fb.group({
             email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEXP)])],

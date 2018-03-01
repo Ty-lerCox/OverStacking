@@ -13,7 +13,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 @Injectable()
 export class AuthData {
   userData: any;
-  constructor(public afAuth: AngularFireAuth, private platform: Platform,private facebook: Facebook,private googleplus: GooglePlus) {
+  constructor(public afAuth: AngularFireAuth, private facebook: Facebook,private googleplus: GooglePlus) {
   }
 
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs';
 
 import { IGame } from '../../../../app/app.interfaces'
 
@@ -38,7 +38,7 @@ export class Category1Page {
   //*********** Open list page  **************/
   openList(Id) {
       console.log("openList");
-      this.navCtrl.push('List1Page',{Id:Id}); 
+      this.navCtrl.push('List1Page', {Id:Id}); 
   }
 
   add() {

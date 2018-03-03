@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/observable';
 
-import { ICategory } from '../../../../app/app.interfaces'
+import { IGame } from '../../../../app/app.interfaces'
 
 @IonicPage()
 @Component({
@@ -12,17 +13,25 @@ import { ICategory } from '../../../../app/app.interfaces'
 export class Category1Page {
   categories;
 
-  constructor(public navCtrl: NavController,public navParams: NavParams,public loadingCtrl: LoadingController, public afDB: AngularFireDatabase) {
+  gamesCol: AngularFirestoreCollection<IGame>;
+  games: Observable<IGame[]>;
+
+
+  constructor(public navCtrl: NavController,public navParams: NavParams,public loadingCtrl: LoadingController, public afs: AngularFirestore) {
+
+    //**Loading Screen */
     let loadingPopup = this.loadingCtrl.create({
       spinner: 'crescent',
       content: ''
     });
     loadingPopup.present();
 
-    afDB.list<ICategory>('/categories').valueChanges().subscribe(data => {
-      this.categories = data
-      loadingPopup.dismiss();
-    });
+    //** Game Collection */
+    this.gamesCol = this.afs.collection('games');//.doc('0').collection('stacks');
+    this.games = this.gamesCol.valueChanges();
+
+    //** Exit */
+    loadingPopup.dismiss();
 
   }
 
@@ -30,6 +39,10 @@ export class Category1Page {
   openList(Id) {
       console.log("openList");
       this.navCtrl.push('List1Page',{Id:Id}); 
+  }
+
+  add() {
+    this.afs.collection('games').add({'name': "newgame", 'img': "0"});
   }
 
 

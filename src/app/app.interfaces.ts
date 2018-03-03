@@ -1,8 +1,6 @@
-export interface ICategory {
+export interface IGame {
 	name: string;
-	imgBg: string;
-	type: string;
-	show: boolean;
+	img: string;
 }
 
 export interface IStack {

@@ -10,10 +10,9 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { MyApp } from './app.component';
 
 //***********  Angularfire2 v5 **************/
-
 import { AngularFireModule } from 'angularfire2';
 // New imports to update based on AngularFire2 version 4
-import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 //***********  Facebook **************/
@@ -24,21 +23,19 @@ import { GooglePlus } from '@ionic-native/google-plus';
 //*********** Provider **************/
 import { AuthData } from '../providers/auth-data';
 
-
 //************** import image gallery *********************//
-
 import * as ionicGalleryModal from 'ionic-gallery-modal';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 
 //********** firebase configuration  ************ */
-export const config = { 
-  apiKey: "AIzaSyC4xc4GLXzUmuuxSRFH9A7lxamTv0Fe7WE",
-  authDomain: "overstacking-326f3.firebaseapp.com",
-  databaseURL: "https://overstacking-326f3.firebaseio.com",
-  projectId: "overstacking-326f3",
-  storageBucket: "overstacking-326f3.appspot.com",
-  messagingSenderId: "805671098787"
+export const config = {
+  apiKey: "AIzaSyCujptvzOVPjCwr9aIj-iKCtq2ztuzTYUs",
+  authDomain: "overstacking2.firebaseapp.com",
+  databaseURL: "https://overstacking2.firebaseio.com",
+  projectId: "overstacking2",
+  storageBucket: "overstacking2.appspot.com",
+  messagingSenderId: "783653235052"
 };
   
 @NgModule({
@@ -51,7 +48,7 @@ export const config = {
     IonicModule.forRoot(MyApp),
   
     AngularFireModule.initializeApp(config),
-    AngularFireDatabaseModule,
+    AngularFirestoreModule,
     AngularFireAuthModule
   ],
   bootstrap: [

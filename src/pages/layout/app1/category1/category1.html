@@ -16,7 +16,6 @@
 </ion-header>
 
 <ion-content>
-  <button (click)="add()">Add</button>
   <!--*********** List view ***********-->
   <div>
     <ion-card tappable class="card-list fadein-down" *ngFor="let game of games | async" (click)="openList(game.ID)">

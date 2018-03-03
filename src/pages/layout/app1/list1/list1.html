@@ -18,7 +18,7 @@
     </ion-fab>
 
   <!--*********** List  ***********-->
-  <ion-card *ngFor="let stack of stacks">      
+  <ion-card *ngFor="let stack of stacks | async">      
     <ion-card-content>
       <h1>
         {{stack.description}}

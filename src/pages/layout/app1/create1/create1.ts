@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 import { IStack } from '../../../../app/app.interfaces';
 
@@ -22,10 +22,12 @@ export class Create1Page {
   tankCount: number;
   dpsCount: number;
   supportCount: number;
+  stacksCol: AngularFirestoreCollection<IStack>;
   error = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public afDB: AngularFireDatabase) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore) {
     this.ID = this.navParams.get('Id');
+    this.stacksCol = this.navParams.get('stacksCol');
     if (!this.ID) {
       this.ID = 0;
     }
@@ -47,24 +49,10 @@ export class Create1Page {
     if (!this.validateComp()) {
       return console.log("invalid comp");
     }
-    this.stack.category = this.ID;
 
-    this.error += "About to begin. ";
+    this.stacksCol.add(this.stack);
+    this.navCtrl.push('List1Page', { Id: this.ID });
 
-    try {
-      var x = this.afDB.list("stacks");
-      this.error += "ref setup. ";
-      this.error += this.stack;
-      x.push(this.stack).then(() => {
-        this.error += "pulled data. ";
-        this.navCtrl.push('List1Page', { Id: this.ID });
-      });
-      this.error += "Didn't in a catch. ";
-    }
-    catch (error) {
-      this.error += "Ended in a catch. ";
-    }
-    this.error += "end. ";
   }
 
   compSelected() {

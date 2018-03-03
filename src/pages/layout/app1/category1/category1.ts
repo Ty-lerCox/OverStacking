@@ -12,8 +12,6 @@ import { IGame } from '../../../../app/app.interfaces'
   templateUrl: 'category1.html'
 })
 export class Category1Page {
-  categories;
-
   gamesCol: AngularFirestoreCollection<IGame>;
   games: Observable<IGame[]>;
 
@@ -40,10 +38,6 @@ export class Category1Page {
   openList(Id) {
       console.log("openList");
       this.navCtrl.push('List1Page', {Id:Id}); 
-  }
-
-  add() {
-    this.afs.collection('games').add({'name': "newgame", 'img': "0"});
   }
 
 

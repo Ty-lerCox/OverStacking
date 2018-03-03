@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar color="flat-wet-asphalt">
+  <ion-navbar hideBackButton="true" color="flat-wet-asphalt">
     <ion-title>Create New Stack</ion-title>
   </ion-navbar>
 
@@ -94,7 +94,8 @@
 
   <ion-footer>
     <div padding>
-      <button color="tango-sky-blue" ion-button full (click)="createStack()">Create Stack</button>
+      <button color="tango-sky-blue" ion-button full (click)="createStack()" [disabled]="!isValidForm()">Create Stack</button>
+      <button color="white" ion-button full (click)="cancel()">Cancel</button>
     </div> 
   </ion-footer>
 </ion-content>

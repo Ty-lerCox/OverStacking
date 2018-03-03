@@ -28,21 +28,22 @@ export class Create1Page {
   constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore) {
     this.ID = this.navParams.get('Id');
     this.stacksCol = this.navParams.get('stacksCol');
-    if (!this.ID) {
-      this.ID = 0;
-    }
-  }
+    if (this.ID == null) {
+      console.log(this.ID);
+      this.navCtrl.push('Category1Page');
+      return;
+    } else {
+      this.stack = {
+        description: "",
+        type: "",
+        comp: "",
+        tank_heroes: "",
+        dps_heroes: "",
+        support_heroes: "",
+        skill_range: { lower: 2000, upper: 3000 }
+      } as IStack;
 
-  ionViewDidLoad() {
-    this.stack = {
-      description: "",
-      type: "",
-      comp: "",
-      tank_heroes: "",
-      dps_heroes: "",
-      support_heroes: "",
-      skill_range: { lower: 2000, upper: 3000 }
-    } as IStack;
+    }
   }
 
   createStack() {
@@ -78,7 +79,7 @@ export class Create1Page {
     this.stack.support_heroes = "";
   }
 
-  validateComp(): boolean {    
+  validateComp(): boolean {
     var valid = true;
     if (this.stack.tank_heroes.length > this.tankCount) {
       valid = false;
@@ -90,6 +91,18 @@ export class Create1Page {
       valid = false;
     }
     return valid;
+  }
+
+  isValidForm():boolean {
+    if (this.stack.description && this.stack.type && this.stack.comp) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  cancel() {
+    this.navCtrl.push('List1Page', { Id: this.ID });
   }
 
 }

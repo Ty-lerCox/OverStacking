@@ -13,7 +13,7 @@ import { IGame } from '../../../../app/app.interfaces'
 })
 export class Category1Page {
   gamesCol: AngularFirestoreCollection<IGame>;
-  games: Observable<IGame[]>;
+  games: any;
 
 
   constructor(public navCtrl: NavController,public navParams: NavParams,public loadingCtrl: LoadingController, public afs: AngularFirestore) {
@@ -26,8 +26,16 @@ export class Category1Page {
     loadingPopup.present();
 
     //** Game Collection */
-    this.gamesCol = this.afs.collection('games');//.doc('0').collection('stacks');
-    this.games = this.gamesCol.valueChanges();
+    this.gamesCol = this.afs.collection('games');
+    //this.games = this.gamesCol.valueChanges();
+    this.games = this.gamesCol.snapshotChanges()
+      .map(actions => {
+        return actions.map(prop => {
+          const id = prop.payload.doc.id;
+          const data = prop.payload.doc.data() as IGame;
+          return { id, data }
+        })
+      })
 
     //** Exit */
     loadingPopup.dismiss();
@@ -36,8 +44,7 @@ export class Category1Page {
 
   //*********** Open list page  **************/
   openList(Id) {
-      console.log("openList");
-      this.navCtrl.push('List1Page', {Id:Id}); 
+      this.navCtrl.push('List1Page', { Id: Id }); 
   }
 
 

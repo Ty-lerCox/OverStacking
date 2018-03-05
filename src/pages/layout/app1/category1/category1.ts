@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import 'rxjs/add/operator/map';
 
@@ -14,9 +15,10 @@ export class Category1Page {
   gamesCol: AngularFirestoreCollection<IGame>;
   games: any;
   activeMenu: string;
+  user;
 
 
-  constructor(public navCtrl: NavController,public navParams: NavParams,public loadingCtrl: LoadingController, public afs: AngularFirestore) {
+  constructor(public navCtrl: NavController,public navParams: NavParams,public loadingCtrl: LoadingController, public afs: AngularFirestore, public afAuth: AngularFireAuth) {
 
     //**Loading Screen */
     let loadingPopup = this.loadingCtrl.create({
@@ -36,6 +38,7 @@ export class Category1Page {
             return { id, data };
         });
     });
+
 
     //** Exit */
     loadingPopup.dismiss();

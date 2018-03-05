@@ -23,8 +23,9 @@ export class MyApp {
     ];
 
     this.pages = [ 
-      // { icon:'call', title:'Contact us', component: 'ContactPage' },
-      { icon:'bookmark', title:'Games', component: "Category1Page" }    
+      { icon:'bookmark', title:'Games', component: "Category1Page" },
+      { icon:'bookmark', title:'Profile', component: "Category1Page" }
+      
     ];
 
   }

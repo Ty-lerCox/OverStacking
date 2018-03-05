@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import 'rxjs/add/operator/map';
 
@@ -17,12 +18,14 @@ export class Detail1Page {
   stackID;
   stack: IStack;
   stacksCol: AngularFirestoreCollection<IStack>;
-  heroes: string[] = [];
+  heroes;
   tankCount: number;
   dpsCount: number;
   supportCount: number;
+  uID;
+  isAllowedToSelect: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, private afa: AngularFireAuth) {
     this.ID = this.navParams.get('Id');
     this.stackID = this.navParams.get('stackId');
     this.stacksCol = this.navParams.get('stacksCol');
@@ -33,10 +36,13 @@ export class Detail1Page {
     } else {
       this.stacksCol.doc<IStack>(String(this.stackID)).valueChanges().subscribe(data => {
         this.stack = data;
+        this.uID = this.afa.auth.currentUser.uid;
         this.mapRequiredHeroes();
+        this.isAllowedRoleSelect();
         console.log(data);
       });
     }
+
 
   }
 
@@ -44,6 +50,8 @@ export class Detail1Page {
   }
 
   mapRequiredHeroes() {
+    var oldData = this.heroes;
+    this.heroes = [];
     switch (this.stack.comp) {
       case "2-2-2 (2 tanks, 2 dps, 2 support)":
         this.tankCount = 2;
@@ -61,25 +69,37 @@ export class Detail1Page {
         this.supportCount = 2;
         break;
     }
-
+    var obj;
     for (let index = 0; index < this.tankCount; index++) {
-      this.heroes.push("Any Tank");
+      obj = {
+        name: "Any Tank " + String(index + 1),
+        checked: this.getChecked("Any Tank " + String(index + 1))
+      }
+      this.heroes.push(obj);
     }
     for (let index = 0; index < this.dpsCount; index++) {
-      this.heroes.push("Any DPS");
+      obj = {
+        name: "Any DPS " + String(index + 1),
+        checked: this.getChecked("Any DPS " + String(index + 1))
+      }
+      this.heroes.push(obj);
     }
     for (let index = 0; index < this.supportCount; index++) {
-      this.heroes.push("Any Support");
+      obj = {
+        name: "Any Support " + String(index + 1),
+        checked: this.getChecked("Any Support " + String(index + 1))
+      }
+      this.heroes.push(obj);
     }
 
     var BreakException = {};
     if (this.stack.tank_heroes != "") {
       var heroes = this.stack.tank_heroes;
-      for (let tank of heroes) {
+      for (let hero of heroes) {
         try {
           this.heroes.forEach((item, index) => {
-            if (item == "Any Tank") {
-              this.heroes[index] = tank;
+            if (String(item.name).substring(0, 8) == "Any Tank") {
+              this.heroes[index].name = hero;
               throw BreakException;
             }
           });
@@ -91,11 +111,11 @@ export class Detail1Page {
 
     if (this.stack.dps_heroes != "") {
       heroes = this.stack.dps_heroes;
-      for (let tank of heroes) {
+      for (let hero of heroes) {
         try {
           this.heroes.forEach((item, index) => {
-            if (item == "Any DPS") {
-              this.heroes[index] = tank;
+            if (String(item.name).substring(0, 7) == "Any DPS") {
+              this.heroes[index].name = hero;
               throw BreakException;
             }
           });
@@ -107,11 +127,11 @@ export class Detail1Page {
     
     if (this.stack.support_heroes != "") {
       heroes = this.stack.support_heroes;
-      for (let tank of heroes) {
+      for (let hero of heroes) {
         try {
           this.heroes.forEach((item, index) => {
-            if (item == "Any Support") {
-              this.heroes[index] = tank;
+            if (String(item.name).substring(0, 11) == "Any Support") {
+              this.heroes[index].name = hero;
               throw BreakException;
             }
           });
@@ -120,13 +140,170 @@ export class Detail1Page {
         }
       }
     }
+
+    //recover old data after realtime update
+    if (oldData != null) {
+      try {
+        oldData.forEach((item1, index1) => {
+          if (item1.checked) {
+            this.heroes.forEach((item2, index2) => {
+              if (item1.name == item2.name) {
+                this.stack.slots.forEach(slots => {
+                  if (slots.name == item2.name) {
+                    if (slots.userID != "") {
+                      this.heroes[index2].checked = true;
+                    }
+                  }
+                });
+              }
+            });
+          }
+        });
+      } catch (e) {
+      }
+    }
+      
+      //mark heroes as unavailable
+      try {
+        this.stack.slots.forEach((slot, indexSlot) => {
+          this.heroes.forEach((hero, indexHero) => {
+            if (slot.name == hero.name) {
+              if (slot.userID != "")
+              {
+                this.heroes[indexHero].checked = true;
+              }
+            }
+          });
+
+        });
+      } catch (e) {
+      }
+
   }
 
-  roleSelected(hero: string) {
-    this.stacksCol.doc<IStack>(String(this.stackID)).valueChanges().subscribe(data => {
-      this.stack = data;
-      this.mapRequiredHeroes();
-      console.log(data);
-    });
+  getChecked(hero): boolean {
+    var result = false;
+    if (this.heroes == null) {
+      return false;
+    }
+
+    try {
+      // if user has already selected a slot
+      this.stack.slots.forEach(slots => {
+        if (slots.userID == this.uID) {
+          if (slots.name == hero) {
+            result = true;
+          }
+        }
+      });
+    } catch (e) {
+      result = false;
+    }
+    return result;
   }
+
+  isAvailableSlot(hero: string): boolean {
+    var result = true;
+    if (!this.stack.slots) {
+      return true;
+    }
+    try {
+      // if user has already selected a slot
+      this.stack.slots.forEach(slots => {
+        if (slots.userID == this.uID) {
+          if (slots.name == hero) {
+            result = true;
+          } else {
+            result = false;
+          }
+        }
+      });
+
+      // if slot is in stack
+      if (!result) {
+        this.stack.slots.forEach(slots => {
+          if (slots.name == hero) {
+            if (slots.userID == "") {
+              result = true;
+            } else {
+              result = false;
+            }
+          }
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    return result;
+  }
+
+  roleSelected(event: any, hero: string) {
+    var index;
+    this.heroes.forEach((item, i) => {
+      if (item.name == hero) {
+        index = i;
+      }
+    });
+    var slots = this.stack.slots;
+    if (!slots){
+      slots = [];
+    }
+    if (this.heroes[index].checked) {
+      slots.push({
+        name: hero,
+        userID: this.uID
+      });
+      return this.stacksCol.doc<IStack>(String(this.stackID)).update({
+        slots: slots
+      })
+      .then(function() {
+          console.log("Document successfully updated!");
+      })
+      .catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+      });
+    } else {
+      try {
+        slots.forEach((item, index) => {
+          if (item.name == hero){
+            /*slots[index].name = "";
+            slots[index].userID = "";*/
+            slots.splice(index);
+          }
+        });
+        return this.stacksCol.doc<IStack>(String(this.stackID)).update({
+          slots: slots
+        })
+        .then(function() {
+            console.log("Document successfully updated!");
+        })
+        .catch(function(error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+        });
+      } catch (e) {
+      }
+    }
+  }
+
+  isAllowedRoleSelect() {
+    this.stacksCol.doc<IStack>(String(this.stackID)).valueChanges().subscribe(data => {
+      if (!data.slots) {
+        this.isAllowedToSelect = true;
+      }
+      try {
+        data.slots.forEach(x => {
+          if (x.userID == this.uID) {
+            this.isAllowedToSelect = false;
+          }
+        });
+      } catch (e) {
+      }
+    });
+    this.isAllowedToSelect = true;
+  }
+
+
 }

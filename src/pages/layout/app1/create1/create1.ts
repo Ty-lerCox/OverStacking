@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { firestore } from 'firebase/app';
+
 
 import { IStack } from '../../../../app/app.interfaces';
 
@@ -51,6 +53,7 @@ export class Create1Page {
       return console.log("invalid comp");
     }
 
+    this.stack.dateTime = firestore.FieldValue.serverTimestamp();
     this.stacksCol.add(this.stack);
     this.navCtrl.push('List1Page', { Id: this.ID });
 

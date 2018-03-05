@@ -13,6 +13,13 @@ export interface IStack {
 	dps_heroes: string;
 	support_heroes: string;
 	skill_range: ISkillRange;
+	dateTime: Date;
+	slots: ISlot[]; 
+}
+
+export interface ISlot {
+	name: string;
+	userID: string;
 }
 
 export interface ISkillRange {

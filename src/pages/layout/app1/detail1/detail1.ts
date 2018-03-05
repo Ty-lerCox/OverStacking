@@ -226,12 +226,14 @@ export class Detail1Page {
       }
       // if slot is in stack
       this.stack.slots.forEach(slot => {
-        if (slot.name == hero) {
+        if (slot.name == hero && slot.userID != "") {
           if (slot.userID == this.uID) {
             disabled = false;
           } else {
             disabled = true;
           }
+        } else {
+          disabled = false;
         }
       });
 
@@ -251,17 +253,17 @@ export class Detail1Page {
         index = i;
       }
     });
-    this.stack.slots;
-    if (!this.stack.slots){
-      this.stack.slots = [];
+    var slots = this.stack.slots;
+    if (!slots){
+      slots = [];
     }
     if (this.heroes[index].checked) {
-      this.stack.slots.push({
+      slots.push({
         name: hero,
         userID: this.uID
       });
       return this.stacksCol.doc<IStack>(String(this.stackID)).update({
-        slots: this.stack.slots
+        slots: slots
       })
       .then(function() {
           console.log("Document successfully updated!");
@@ -272,15 +274,15 @@ export class Detail1Page {
       });
     } else {
       try {
-        this.stack.slots.forEach((item, index) => {
-          if (item.name == hero){
-            /*slots[index].name = "";
-            slots[index].userID = "";*/
-            this.stack.slots.splice(index);
+        slots.forEach((item, index) => {
+          if (item.name == hero) {
+            //slots[index].name = "";
+            slots[index].userID = "";
+            /*x = slots.splice(index);*/
           }
         });
         return this.stacksCol.doc<IStack>(String(this.stackID)).update({
-          slots: this.stack.slots
+          slots: slots
         })
         .then(function() {
             console.log("Document successfully updated!");

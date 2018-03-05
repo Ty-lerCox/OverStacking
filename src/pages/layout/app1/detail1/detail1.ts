@@ -251,17 +251,17 @@ export class Detail1Page {
         index = i;
       }
     });
-    var slots = this.stack.slots;
-    if (!slots){
-      slots = [];
+    this.stack.slots;
+    if (!this.stack.slots){
+      this.stack.slots = [];
     }
     if (this.heroes[index].checked) {
-      slots.push({
+      this.stack.slots.push({
         name: hero,
         userID: this.uID
       });
       return this.stacksCol.doc<IStack>(String(this.stackID)).update({
-        slots: slots
+        slots: this.stack.slots
       })
       .then(function() {
           console.log("Document successfully updated!");
@@ -272,15 +272,15 @@ export class Detail1Page {
       });
     } else {
       try {
-        slots.forEach((item, index) => {
+        this.stack.slots.forEach((item, index) => {
           if (item.name == hero){
             /*slots[index].name = "";
             slots[index].userID = "";*/
-            slots.splice(index);
+            this.stack.slots.splice(index);
           }
         });
         return this.stacksCol.doc<IStack>(String(this.stackID)).update({
-          slots: slots
+          slots: this.stack.slots
         })
         .then(function() {
             console.log("Document successfully updated!");

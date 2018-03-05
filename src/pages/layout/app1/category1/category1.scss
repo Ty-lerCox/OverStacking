@@ -93,4 +93,13 @@ page-category1 {
             width: 100%;
             text-align: center;
         }
+
+        .segment-md .segment-button {
+            color: #fff;
+        }
+
+        .segment-md .segment-button.activated, .segment-md .segment-button.segment-activated {
+            opacity: 1;
+            border-color: #fff;
+        }
 }

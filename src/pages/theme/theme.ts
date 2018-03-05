@@ -64,6 +64,7 @@ export class ThemePage {
         {colorName:'flat-amethyst',colorCode:'#9b59b6'},
         {colorName:'flat-wisteria',colorCode:'#8e44ad'},
         {colorName:'flat-wet-asphalt',colorCode:'#34495e'},
+        {colorName:'flat-wet-asphalt-off',colorCode:'#4A6075'},
 
      
         {colorName:'flat-midnight-blue',colorCode:'#2c3e50'},

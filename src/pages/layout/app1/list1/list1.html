@@ -18,18 +18,18 @@
     </ion-fab>
 
   <!--*********** List  ***********-->
-  <ion-card *ngFor="let stack of stacks | async">      
+  <ion-card *ngFor="let stack of stacks | async" (click)="openStack(stack.id)">      
     <ion-card-content>
       <h1>
-        {{stack.description}}
+        {{stack.data.description}}
       </h1>
       <p style="margin-top:25px;">
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.type }}</ion-badge>
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.comp }}</ion-badge>
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.tank_heroes }}</ion-badge>
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.dps_heroes }}</ion-badge>
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.support_heroes }}</ion-badge>
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.skill_range.lower }} - {{ stack.skill_range.upper }} SR</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.type }}</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.comp }}</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.tank_heroes }}</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.dps_heroes }}</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.support_heroes }}</ion-badge>
+          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.skill_range.lower }} - {{ stack.data.skill_range.upper }} SR</ion-badge>
       </p>
     </ion-card-content>
     

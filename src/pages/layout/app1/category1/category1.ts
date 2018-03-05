@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { IGame } from '../../../../app/app.interfaces'
@@ -14,6 +13,7 @@ import { IGame } from '../../../../app/app.interfaces'
 export class Category1Page {
   gamesCol: AngularFirestoreCollection<IGame>;
   games: any;
+  activeMenu: string;
 
 
   constructor(public navCtrl: NavController,public navParams: NavParams,public loadingCtrl: LoadingController, public afs: AngularFirestore) {
@@ -39,6 +39,8 @@ export class Category1Page {
 
     //** Exit */
     loadingPopup.dismiss();
+
+    this.activeMenu = "Basic";
 
   }
 

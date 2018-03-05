@@ -13,6 +13,16 @@
         </button>
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar no-border-top color="flat-midnight-blue">
+    <ion-segment [(ngModel)]="activeMenu" color="white">
+      <ion-segment-button value="Basic">
+        Basic Stacks
+      </ion-segment-button>
+      <ion-segment-button value="Leader">
+        Leader Stacks
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>

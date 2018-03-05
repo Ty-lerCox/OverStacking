@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage,NavController, NavParams, ModalController, LoadingController, Navbar } from 'ionic-angular';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { IStack } from '../../../../app/app.interfaces'
@@ -15,7 +14,7 @@ export class List1Page {
   @ViewChild(Navbar) navBar: Navbar;
   ID:any;
   stacksCol: AngularFirestoreCollection<IStack>;
-  stacks: Observable<IStack[]>;
+  stacks: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController,public loadingCtrl: LoadingController , public afs: AngularFirestore) {
 
@@ -32,7 +31,15 @@ export class List1Page {
       this.navCtrl.push('Category1Page');
     } else {
       this.stacksCol = this.afs.collection('games').doc(String(this.ID)).collection('stacks');
-      this.stacks = this.stacksCol.valueChanges();
+      //this.stacks = this.stacksCol.valueChanges();
+      this.stacks = this.stacksCol.snapshotChanges()
+      .map(actions => {
+        return actions.map(prop => {
+          const id = prop.payload.doc.id;
+          const data = prop.payload.doc.data() as IStack;
+          return { id, data }
+        })
+      })
     }
 
     //** Exit */
@@ -50,12 +57,11 @@ export class List1Page {
     }
   }
 
-  goToDetail(itemId){
-      this.navCtrl.push('Detail1Page', {itemId:itemId}); 
+  openStack(stackID) {
+      this.navCtrl.push('Detail1Page', {Id: this.ID, stackId: stackID, stacksCol: this.stacksCol }); 
   }
 
   createNewStack() {
     this.navCtrl.push('Create1Page', {Id: this.ID, stacksCol: this.stacksCol });
   }
-
 }

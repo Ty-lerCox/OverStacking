@@ -203,7 +203,7 @@ export class Detail1Page {
   }
 
   isAvailableSlot(hero: string): boolean {
-    var result = true;
+    var result = false;
     if (!this.stack.slots) {
       return true;
     }
@@ -219,8 +219,11 @@ export class Detail1Page {
         }
       });
 
+      
+
       // if slot is in stack
       if (!result) {
+        result = true;
         this.stack.slots.forEach(slots => {
           if (slots.name == hero) {
             if (slots.userID == "") {

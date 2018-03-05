@@ -22,14 +22,18 @@
 
 #menu-material {
   .list-box{
-    margin-top:190px;
+    margin-top:175px;
   }
   .menu-header {
-    padding: 5px 15px;
-    background-image: url('../assets/md-bg6.jpg');
+    padding-top: 100px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    // background-image: url('../assets/md-bg2.jpg');
     background-size: cover;
-    background-color: color($colors, blue2);
+    background-color: color($colors, flat-midnight-blue);
     color: white;
+    min-height:150px;
     .name {
       font-weight: 400;
       font-size:18px;

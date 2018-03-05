@@ -14,7 +14,7 @@
     </ion-buttons>
   </ion-navbar>
   <ion-toolbar no-border-top color="flat-midnight-blue">
-    <ion-segment [(ngModel)]="activeMenu" color="white">
+    <ion-segment [(ngModel)]="activeMenu" color="white" (ionChange)="onSegmentChange()">
       <ion-segment-button value="Basic">
         Basic Stacks
       </ion-segment-button>
@@ -29,7 +29,7 @@
   <!--*********** List view ***********-->
   <div>
     <ion-card tappable class="card-list fadein-down" *ngFor="let game of games | async" (click)="openList(game.id)">
-      <div class="card-list-bg" [ngStyle]="{'background-image': 'url(' + game.data.img + ')'}">
+      <div class="card-list-bg" [ngStyle]="{'background-image': 'url(' + game.data.img + ')', 'background-position': 'center center', 'background-size': 'cover'}">
         <h2 class="card-list-title"> {{ game.data.name }}</h2>
       </div>
     </ion-card>

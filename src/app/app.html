@@ -5,14 +5,20 @@
 <!--***********  Side menu for android ***********-->
       <div id="menu-material" showWhen="android">
           <ion-header class="menu-header">      
-            <img class="user-avatar round" src =  "https://pbs.twimg.com/profile_images/834457277830541312/bYMCvtHD.jpg"/>
-            <p class="name">ionic3fullapp</p>
-            <p class="email">with firebase backend</p>
+            <p class="name">OverStacking</p>
+            <p class="email">Bringing the brightest of gamers together.</p>
           </ion-header>
       <!--***********  Menu for android  ***********-->
           <div class="list-box">
             <ion-list  no-lines>
 
+              <div *ngFor="let p of pages">
+                <ion-item menuClose (click)="openPage(p)">
+                  <ion-icon  [name]="p.icon" color="gray"item-left></ion-icon>
+                    {{p.title}}
+                </ion-item>
+              </div> 
+              
               <div *ngFor="let d of menu">
                   <ion-item tappable  (click)="toggleDetails(d)">
                     <ion-icon  color="gray" [name]="d.iconLeft" item-left></ion-icon>
@@ -26,12 +32,6 @@
                       </div>
               </div> 
 
-              <div *ngFor="let p of pages">
-                  <ion-item menuClose (click)="openPage(p)">
-                    <ion-icon  [name]="p.icon" color="gray"item-left></ion-icon>
-                      {{p.title}}
-                  </ion-item>
-                </div> 
 
             </ion-list>
           </div>

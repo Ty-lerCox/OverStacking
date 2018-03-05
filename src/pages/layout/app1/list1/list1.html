@@ -8,6 +8,13 @@
             Overwatch Stacks
         </ion-title>
     </ion-navbar>
+    <ion-toolbar no-border-top color="flat-midnight-blue">
+      <ion-searchbar
+        (ionInput)="getItems($event)" 
+        placeholder="Search stacks by tag..." 
+        (click)="getAllItems()">
+      </ion-searchbar>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>

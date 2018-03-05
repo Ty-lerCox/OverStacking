@@ -18,6 +18,7 @@
       <ion-card-header>
         Description
       </ion-card-header>
+      <hr>
       <ion-card-content>
         <div>
           {{ stack.description }}
@@ -28,6 +29,7 @@
     <ion-card-header>
       Settings 
     </ion-card-header>
+    <hr>
     <ion-item>
       <ion-label fixed>Type</ion-label>
       <ion-label>{{ stack.type }}</ion-label>
@@ -57,6 +59,7 @@
       <ion-card-header>
         Role Select
       </ion-card-header>
+      <hr>
       <ion-item no-lines *ngFor="let hero of heroes"><!-- (click)="roleSelected(hero)"> -->
         <ion-label>{{ hero }}</ion-label>
         <ion-checkbox></ion-checkbox>

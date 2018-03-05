@@ -25,28 +25,42 @@ export class Category1Page {
     });
     loadingPopup.present();
 
+    this.activeMenu = "Basic";
+
     //** Game Collection */
-    this.gamesCol = this.afs.collection('games');
-    //this.games = this.gamesCol.valueChanges();
-    this.games = this.gamesCol.snapshotChanges()
-      .map(actions => {
-        return actions.map(prop => {
-          const id = prop.payload.doc.id;
-          const data = prop.payload.doc.data() as IGame;
-          return { id, data }
-        })
-      })
+    this.gamesCol = this.getGamesCol();
+    this.games = this.gamesCol.snapshotChanges().map(actions => {
+        return actions.map(action => {
+            const data = action.payload.doc.data() as IGame;
+            const id = action.payload.doc.id;
+            return { id, data };
+        });
+    });
 
     //** Exit */
     loadingPopup.dismiss();
-
-    this.activeMenu = "Basic";
 
   }
 
   //*********** Open list page  **************/
   openList(Id) {
       this.navCtrl.push('List1Page', { Id: Id }); 
+  }
+
+  getGamesCol(): AngularFirestoreCollection<IGame> {
+    return this.afs.collection('games', ref => ref.where("type", "==", this.activeMenu));
+  }
+
+  onSegmentChange() {
+    this.gamesCol = this.getGamesCol();
+    this.games = this.gamesCol.snapshotChanges().map(actions => {
+        return actions.map(action => {
+            const data = action.payload.doc.data() as IGame;
+            const id = action.payload.doc.id;
+            return { id, data };
+        });
+    });
+
   }
 
 

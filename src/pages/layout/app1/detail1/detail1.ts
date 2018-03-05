@@ -202,43 +202,46 @@ export class Detail1Page {
     return result;
   }
 
-  isAvailableSlot(hero: string): boolean {
-    var result = false;
+  isSlotDisabled(hero: string): boolean {
+    var disabled = false;
+    var hitBreaker = false;
     if (!this.stack.slots) {
-      return true;
+      disabled = false;
     }
-    try {
-      // if user has already selected a slot
-      this.stack.slots.forEach(slots => {
-        if (slots.userID == this.uID) {
-          if (slots.name == hero) {
-            result = true;
+    try {   
+
+      // if player has selected slot
+      this.stack.slots.forEach(slot => {
+        if (slot.userID == this.uID) {
+          if (slot.name == hero) {
+            disabled = false;
           } else {
-            result = false;
+            disabled = true;
+            hitBreaker = true;
+          }
+        }
+      });  
+      if (hitBreaker) {
+        return disabled;
+      }
+      // if slot is in stack
+      this.stack.slots.forEach(slot => {
+        if (slot.name == hero) {
+          if (slot.userID == this.uID) {
+            disabled = false;
+          } else {
+            disabled = true;
           }
         }
       });
 
-      
 
-      // if slot is in stack
-      if (!result) {
-        result = true;
-        this.stack.slots.forEach(slots => {
-          if (slots.name == hero) {
-            if (slots.userID == "") {
-              result = true;
-            } else {
-              result = false;
-            }
-          }
-        });
-      }
+
     } catch (e) {
       console.log(e);
     }
-
-    return result;
+    
+    return disabled;
   }
 
   roleSelected(event: any, hero: string) {

@@ -226,21 +226,20 @@ export class Detail1Page {
       }
       // if slot is in stack
       this.stack.slots.forEach(slot => {
-        if (slot.name == hero && slot.userID != "") {
-          if (slot.userID == this.uID) {
-            disabled = false;
+        if (slot.name == hero) {
+          if (slot.userID != "") {
+            if (slot.userID == this.uID) {
+              disabled = false;
+            } else {
+              disabled = true;
+              hitBreaker = true;
+            }
           } else {
             disabled = true;
           }
-        } else {
-          disabled = false;
         }
       });
-
-
-
     } catch (e) {
-      console.log(e);
     }
     
     return disabled;
@@ -276,9 +275,8 @@ export class Detail1Page {
       try {
         slots.forEach((item, index) => {
           if (item.name == hero) {
-            //slots[index].name = "";
+            slots[index].name = "";
             slots[index].userID = "";
-            /*x = slots.splice(index);*/
           }
         });
         return this.stacksCol.doc<IStack>(String(this.stackID)).update({

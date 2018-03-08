@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="flat-wet-asphalt">
+    <ion-navbar color="dark">
         <button ion-button menuToggle >
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -7,7 +7,7 @@
             Overwatch Stacks
         </ion-title>
     </ion-navbar>
-    <ion-toolbar no-border-top color="flat-midnight-blue">
+    <ion-toolbar no-border-top color="primary">
       <ion-searchbar
         (ionInput)="getItems($event)" 
         placeholder="Search stacks by tag..." 
@@ -30,18 +30,18 @@
         {{stack.data.description}}
       </h1>
       <p style="margin-top:25px;">
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.type }}</ion-badge>
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.comp }}</ion-badge>
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.tank_heroes }}</ion-badge>
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.dps_heroes }}</ion-badge>
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.support_heroes }}</ion-badge>
-          <ion-badge color="flat-wet-asphalt" style="margin-bottom:5px;">{{ stack.data.skill_range.lower }} - {{ stack.data.skill_range.upper }} SR</ion-badge>
+          <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.type }}</ion-badge>
+          <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.comp }}</ion-badge>
+          <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.tank_heroes }}</ion-badge>
+          <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.dps_heroes }}</ion-badge>
+          <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.support_heroes }}</ion-badge>
+          <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.skill_range.lower }} - {{ stack.data.skill_range.upper }} SR</ion-badge>
       </p>
     </ion-card-content>
     
     <ion-row>
         <ion-col center text-center> 
-          <button ion-button icon-left clear color="pink">     
+          <button ion-button icon-left full clear color="pink">     
             <div>Join Stack</div>
           </button>
         </ion-col>

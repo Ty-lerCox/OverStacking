@@ -1,14 +1,15 @@
 <ion-header no-border>
-  <ion-navbar transparent color="light">
+  <ion-navbar transparent color="dark-Gray">
     <button ion-button menuToggle>
-      <ion-icon name="menu" color="light"></ion-icon>
+      <ion-icon name="menu" color="dark-Gray"></ion-icon>
     </button>
   </ion-navbar>
 </ion-header>
 
-<ion-content [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+<ion-content [ngStyle]="{'background-color': '#eeeeee'}">
   <div class="login-container">
-    <img class="logo" src="./assets/ionic.png" />
+    <img class="logo"  src="./assets/gimp.png" /><br>
+    <img class="title" src="./assets/main.png" />
     <form [formGroup]="resetPasswordForm" (submit)="resetPassword()" novalidate>
 
       <ion-item>
@@ -17,7 +18,7 @@
       </ion-item>
 
       <ion-item class="error-message">
-        <p  *ngIf="!resetPasswordForm.controls.email.valid  && resetPasswordForm.controls.email.dirty">Please enter a valid email.</p>
+        <p *ngIf="!resetPasswordForm.controls.email.valid  && resetPasswordForm.controls.email.dirty">Please enter a valid email.</p>
       </ion-item>
 
       <button ion-button block type="submit" mode="ios" color="blue2">

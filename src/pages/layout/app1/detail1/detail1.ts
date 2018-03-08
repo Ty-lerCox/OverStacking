@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Navbar, Events } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import 'rxjs/add/operator/map';
@@ -23,9 +23,10 @@ export class Detail1Page {
   dpsCount: number;
   supportCount: number;
   uID;
+  email;
   isAllowedToSelect: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, private afa: AngularFireAuth) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, private afa: AngularFireAuth, public eventsCtrl: Events) {
     this.ID = this.navParams.get('Id');
     this.stackID = this.navParams.get('stackId');
     this.stacksCol = this.navParams.get('stacksCol');
@@ -34,19 +35,34 @@ export class Detail1Page {
       this.navCtrl.push('Category1Page');
       return;
     } else {
+
+      console.log(this.stacksCol);
       this.stacksCol.doc<IStack>(String(this.stackID)).valueChanges().subscribe(data => {
         this.stack = data;
         this.uID = this.afa.auth.currentUser.uid;
+        this.email = this.afa.auth.currentUser.email;
+        console.log(this.email);
         this.mapRequiredHeroes();
         this.isAllowedRoleSelect();
         console.log(data);
       });
     }
-
-
   }
 
   ionViewDidLoad() {
+  }
+
+  ionViewDidUnload() {
+  }
+
+  //Method to override the default back button action
+  setBackButtonAction(){
+    this.navBar.backButtonClick = () => {
+      this.stack = null;
+      this.stacksCol = null;
+      this.navCtrl.push('List1Page', {Id: this.ID });
+   
+    }
   }
 
   mapRequiredHeroes() {
@@ -163,21 +179,20 @@ export class Detail1Page {
       }
     }
       
-      //mark heroes as unavailable
-      try {
-        this.stack.slots.forEach((slot, indexSlot) => {
-          this.heroes.forEach((hero, indexHero) => {
-            if (slot.name == hero.name) {
-              if (slot.userID != "")
-              {
-                this.heroes[indexHero].checked = true;
-              }
+    //mark heroes as unavailable
+    try {
+      this.stack.slots.forEach((slot, indexSlot) => {
+        this.heroes.forEach((hero, indexHero) => {
+          if (slot.name == hero.name) {
+            if (slot.userID != "")
+            {
+              this.heroes[indexHero].checked = true;
             }
-          });
-
+          }
         });
-      } catch (e) {
-      }
+      });
+    } catch (e) {
+    }
 
   }
 
@@ -259,7 +274,8 @@ export class Detail1Page {
     if (this.heroes[index].checked) {
       slots.push({
         name: hero,
-        userID: this.uID
+        userID: this.uID,
+        username: this.email
       });
       return this.stacksCol.doc<IStack>(String(this.stackID)).update({
         slots: slots
@@ -277,6 +293,7 @@ export class Detail1Page {
           if (item.name == hero) {
             slots[index].name = "";
             slots[index].userID = "";
+            slots[index].username = "";
           }
         });
         return this.stacksCol.doc<IStack>(String(this.stackID)).update({

@@ -24,12 +24,13 @@ $font-path: "../assets/fonts";
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
+  primary:    #01ae69,
+  secondary:  #1e88e5,
   danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222,
+  light:      #57e197,
+  dark:       #007d3d,
 darkGray:   #333333,
+  dark-Gray:  #444444,
 
  
 
@@ -191,7 +192,7 @@ darkGray:   #333333,
     base: #9b59b6,
     contrast: #ffffff
   ),
-  flat-wet-asphalt:(
+  primary-old:(
     base: #34495e,
     contrast: #ffffff
   ),

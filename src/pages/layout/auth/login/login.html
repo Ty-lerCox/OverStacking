@@ -1,14 +1,15 @@
 <ion-header no-border>
   <ion-navbar transparent>
     <button ion-button menuToggle>
-      <ion-icon name="menu" color="light"></ion-icon>
+      <ion-icon name="menu" color="dark-Gray"></ion-icon>
     </button>
   </ion-navbar>
 </ion-header>
 
-<ion-content [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+<ion-content [ngStyle]="{'background-color': '#eeeeee'}">
   <div class="login-container">
-    <img class="logo" src="./assets/ionic.png" />
+    <img class="logo" src="./assets/gimp.png" /><br>
+    <img class="title" src="./assets/main.png" />
     
     <!--*********** Form ***********-->
     <form [formGroup]="loginForm" (submit)="login()" novalidate>
@@ -23,7 +24,6 @@
         <ion-input tappable #password type="password" formControlName="password" [class.invalid]="!loginForm.controls.password.valid &&loginForm.controls.password.dirty">
         </ion-input>
       </ion-item>
-
       <ion-item class="error-message">
         <p *ngIf="!loginForm.controls.email.valid  &&
                 loginForm.controls.email.dirty">*Please enter a valid email.</p>
@@ -35,7 +35,7 @@
         <button ion-button mode="ios" block type="submit" color="blue2">Log in</button>
 
         
-        <button ion-button type="button" mode="ios" block icon-left color="light" outline (click)="createAccount()" margin-top>
+        <button ion-button type="button" mode="ios" block icon-left color="dark" (click)="createAccount()" margin-top>
             <ion-icon name="ios-create"></ion-icon> Create new account
         </button>
       </div>
@@ -45,5 +45,5 @@
 
 </ion-content>
 <ion-footer>
-  <button class="bottom" ion-button  mode="ios" type="button"  clear full color="light" (click)="forgot()">Forgot your password? </button>
+  <button class="bottom" ion-button  mode="ios" type="button" full color="dark-Gray" (click)="forgot()">Forgot your password? </button>
 </ion-footer>

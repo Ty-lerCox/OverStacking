@@ -20,6 +20,7 @@ export interface IStack {
 export interface ISlot {
 	name: string;
 	userID: string;
+	username: string;
 }
 
 export interface ISkillRange {

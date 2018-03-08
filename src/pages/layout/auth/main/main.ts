@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, LoadingController, AlertController } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -18,12 +19,18 @@ export class MainPage {
   public backgroundImage: any = "./assets/bg11.jpg";
   public imgLogo: any = "./assets/ionic.png";
 
-  constructor(public navCtrl: NavController, public authData: AuthData, private platform: Platform, public fb: FormBuilder, public alertCtrl: AlertController,public loadingCtrl: LoadingController) {
-      let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
-      this.loginForm = fb.group({
-            email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEXP)])],
-            password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
-      });
+  constructor(public navCtrl: NavController, public authData: AuthData, private platform: Platform, public fb: FormBuilder, public alertCtrl: AlertController,public loadingCtrl: LoadingController, public afAuth: AngularFireAuth) {
+    let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+    this.loginForm = fb.group({
+          email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEXP)])],
+          password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
+    });
+
+    this.afAuth.auth.onAuthStateChanged(user => {
+      if (user) {
+        this.navCtrl.setRoot("Category1Page");
+      }
+    })
   }
 
 
@@ -79,8 +86,6 @@ export class MainPage {
       alert("Please install app in device.")
       loadingPopup.dismiss();
     }
-
-
   }
   
   

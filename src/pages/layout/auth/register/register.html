@@ -1,15 +1,15 @@
-
 <ion-header no-border>
-  <ion-navbar transparent color="light">
+  <ion-navbar transparent color="dark-Gray">
     <button ion-button menuToggle>
-      <ion-icon name="menu" color="light"></ion-icon>
+      <ion-icon name="menu" color="dark-Gray"></ion-icon>
     </button>
   </ion-navbar>
 </ion-header>
 
-<ion-content [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+<ion-content [ngStyle]="{'background-color': '#eeeeee'}">
   <div class="login-container">
-    <img class="logo" src="./assets/ionic.png" />
+    <img class="logo"  src="./assets/gimp.png" /><br>
+    <img class="title" src="./assets/main.png" />
     <!--*********** Form ***********-->
 
     <form [formGroup]="registerForm" (submit)="registerUser()" novalidate>
@@ -58,4 +58,5 @@
 <ion-footer color="blue2">
 
 </ion-footer>
+
 

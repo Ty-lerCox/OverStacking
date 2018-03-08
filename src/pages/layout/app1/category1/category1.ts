@@ -66,5 +66,10 @@ export class Category1Page {
 
   }
 
+  signout() {
+    this.afAuth.auth.signOut();
+    this.navCtrl.setRoot("MainPage");
+  }
+
 
 }

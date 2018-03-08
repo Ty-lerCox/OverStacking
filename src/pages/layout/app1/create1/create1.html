@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar hideBackButton="true" color="flat-wet-asphalt">
+  <ion-navbar hideBackButton="true" color="dark">
     <ion-title>Create New Stack</ion-title>
   </ion-navbar>
 
@@ -83,18 +83,18 @@
 
     <ion-list-header>
         Skill Range
-      <ion-badge item-end color="tango-sky-blue">{{stack.skill_range.lower}}</ion-badge>
-      <ion-badge item-end color="tango-sky-blue">{{stack.skill_range.upper}}</ion-badge>
+      <ion-badge item-end color="primary">{{stack.skill_range.lower}}</ion-badge>
+      <ion-badge item-end color="primary">{{stack.skill_range.upper}}</ion-badge>
     </ion-list-header>
-    <ion-range min="500" max="4500" step="100" snaps="true" dualKnobs="true" pin="true" [(ngModel)]="stack.skill_range" color="tango-sky-blue">
+    <ion-range min="500" max="4500" step="100" snaps="true" dualKnobs="true" pin="true" [(ngModel)]="stack.skill_range" color="primary">
       <ion-label range-left>500</ion-label>
       <ion-label range-right>4500</ion-label>
     </ion-range>
   </ion-list>
 
-  <ion-footer>
+  <ion-footer *ngIf="stack">
     <div padding>
-      <button color="tango-sky-blue" ion-button full (click)="createStack()" [disabled]="!isValidForm()">Create Stack</button>
+      <button color="primary" ion-button full (click)="createStack()" [disabled]="!isValidForm()">Create Stack</button>
       <button color="white" ion-button full (click)="cancel()">Cancel</button>
     </div> 
   </ion-footer>

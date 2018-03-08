@@ -1,6 +1,6 @@
 
 <ion-header>
-  <ion-navbar hideBackButton="true"  no-border-bottom color="flat-wet-asphalt">
+  <ion-navbar hideBackButton="true"  no-border-bottom color="dark">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -8,12 +8,12 @@
      Games
     </ion-title>
     <ion-buttons right>
-        <button ion-button icon-only>
+        <button ion-button icon-only (click)="signout()">
             <ion-icon name="md-more"></ion-icon>
         </button>
     </ion-buttons>
   </ion-navbar>
-  <ion-toolbar no-border-top color="flat-midnight-blue">
+  <ion-toolbar no-border-top color="primary">
     <ion-segment [(ngModel)]="activeMenu" color="white" (ionChange)="onSegmentChange()">
       <ion-segment-button value="Basic">
         Basic Stacks

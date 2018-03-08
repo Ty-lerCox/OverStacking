@@ -63,11 +63,11 @@ export class ThemePage {
         {colorName:'flat-belize-hole',colorCode:'#2980b9'},
         {colorName:'flat-amethyst',colorCode:'#9b59b6'},
         {colorName:'flat-wisteria',colorCode:'#8e44ad'},
-        {colorName:'flat-wet-asphalt',colorCode:'#34495e'},
-        {colorName:'flat-wet-asphalt-off',colorCode:'#4A6075'},
+        {colorName:'primary',colorCode:'#34495e'},
+        {colorName:'primary-off',colorCode:'#4A6075'},
 
      
-        {colorName:'flat-midnight-blue',colorCode:'#2c3e50'},
+        {colorName:'secondary',colorCode:'#2c3e50'},
 
  
         {colorName:'flat-sun-flower',colorCode:'#f1c40f'},

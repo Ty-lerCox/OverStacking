@@ -17,7 +17,7 @@
   <p>
     {{error}}
   </p>
-  <ion-list *ngIf="stack">
+  <ion-list *ngIf="stack" style="padding-bottom:75px;">
     <ion-item>
       <ion-label color="black" stacked>Stack Owner</ion-label>
       <ion-input type="text" [(ngModel)]="stack.owner" [disabled]="true"></ion-input>
@@ -108,7 +108,8 @@
 
   <ion-footer *ngIf="stack">
     <div padding>
-      <button color="primary" ion-button full (click)="createStack()" [disabled]="!isValidForm()">Create Stack</button>
+        <button color="primary" ion-button full (click)="createStack()" [disabled]="!isValidForm()" *ngIf="!isEdit">Create Stack</button>
+        <button color="primary" ion-button full (click)="createStack()" [disabled]="!isValidForm()" *ngIf="isEdit">Update Stack</button>
       <button color="white" ion-button full (click)="cancel()">Cancel</button>
     </div> 
   </ion-footer>

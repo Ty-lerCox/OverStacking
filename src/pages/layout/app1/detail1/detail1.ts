@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Navbar, Events, ToastController } 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import 'rxjs/add/operator/map';
+import { firestore } from 'firebase/app';
 
 import { IStack, IProfile } from '../../../../app/app.interfaces'
 
@@ -258,12 +259,19 @@ export class Detail1Page {
     var hitBreaker = false;
     if (!this.stack.slots) {
       disabled = false;
+      return disabled;
     }
     if (this.disabled == true) {
       disabled = true;
+      return disabled;
+    }
+    if (this.stack.owner == this.username) {
+      disabled = false;
+      return disabled;
     }
     try {   
 
+      
       // if player has selected slot
       this.stack.slots.forEach(slot => {
         if (slot.userID == this.uID) {
@@ -367,5 +375,32 @@ export class Detail1Page {
     this.isAllowedToSelect = true;
   }
 
+  editStack() {
+    /*var editToast = this.toast.create({
+      message: "Sorry, currently editing stacks is unavailable, but will be coming soon.",
+      duration: 3000
+    });
+    editToast.present();*/
+    this.navCtrl.push('Create1Page', {Id: this.ID, stacksCol: this.stacksCol, stackObj: this.stack, stackID: this.stackID });
+  }
+
+  bumpStack() {
+    var toast = this.toast;
+    var date = firestore.FieldValue.serverTimestamp() as Date;
+    this.stacksCol.doc<IStack>(String(this.stackID)).update({
+      dateTime: date
+    })
+    .then(function() {
+      toast.create({
+        message: "Your stack has been bump to the top of the board!",
+        duration: 3000
+      }).present();
+    })
+    .catch(function(error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
+  }
+  
 
 }

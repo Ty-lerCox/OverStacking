@@ -16,6 +16,7 @@ export class List1Page {
   stacksCol: AngularFirestoreCollection<IStack>;
   stacks: any;
   activePlatform;
+  currentTime;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController,public loadingCtrl: LoadingController , public afs: AngularFirestore) {
 
@@ -31,7 +32,7 @@ export class List1Page {
     if (this.ID == null) {
       this.navCtrl.push('Category1Page');
     } else {
-      this.stacksCol = this.afs.collection('games').doc(String(this.ID)).collection('stacks');
+      this.stacksCol = this.afs.collection('games').doc(String(this.ID)).collection('stacks', ref => ref.orderBy("dateTime", "desc").limit(30));
       //this.stacks = this.stacksCol.valueChanges();
       this.stacks = this.stacksCol.snapshotChanges()
         .map(actions => {
@@ -42,6 +43,8 @@ export class List1Page {
           })
       })
     }
+
+    this.currentTime = new Date().getTime();
 
     //** Exit */
     loadingPopup.dismiss();
@@ -104,5 +107,27 @@ export class List1Page {
     return {
       "color": color
     }
+  }
+
+  calcDiff(itemDate: Date): string {
+    var itemTime = new Date(itemDate).getTime();
+    var calc = Math.abs(itemTime - this.currentTime);
+    var result: string;
+    
+    var mins = calc / 1000 / 60;
+    var hours = calc / 1000 / 60 / 60;
+    var days = calc / 1000 / 60 / 60 / 24;
+    
+    if (days > 1) {
+      result = Math.floor(days) + " day" + ((Math.floor(days) > 1) ? "s" : "");
+    } else if (hours > 1) {
+      result = Math.floor(hours) + " hour" + ((Math.floor(hours) > 1) ? "s" : "");
+    } else if (mins > 1) {
+      result = Math.floor(mins) + " min" + ((Math.floor(mins) > 1) ? "s" : "");
+    } else {
+      result = "< 1min";
+    }
+    
+    return result.toString();
   }
 }

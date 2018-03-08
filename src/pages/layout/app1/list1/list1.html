@@ -42,7 +42,7 @@
       <h3>
         <ion-icon name="logo-{{ getIcon(stack.data.platform) }}" [ngStyle]="getIconColor(stack.data.platform)"></ion-icon> &middot;
         {{ stack.data.description }} &middot;
-        Now
+        {{ calcDiff(stack.data.dateTime) }} ago
       </h3>
       <p style="margin-top:25px;">
           <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.type }}</ion-badge>
@@ -57,7 +57,7 @@
     
     <ion-row>
         <ion-col center text-center> 
-          <button ion-button icon-left full clear color="pink">     
+          <button ion-button icon-left full clear color="secondary">     
             <div>Join Stack</div>
           </button>
         </ion-col>

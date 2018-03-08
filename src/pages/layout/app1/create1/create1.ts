@@ -27,19 +27,23 @@ export class Create1Page {
   supportCount: number;
   stacksCol: AngularFirestoreCollection<IStack>;
   error = "";
+  isEdit: boolean;
+  stackID;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, public afAuth: AngularFireAuth) {
     this.ID = this.navParams.get('Id');
     this.stacksCol = this.navParams.get('stacksCol');
+    this.stack = this.navParams.get('stackObj');
+    this.stackID = this.navParams.get('stackID');
+
     if (this.ID == null) {
-      console.log(this.ID);
       this.navCtrl.push('Category1Page');
       return;
     } else {
       var uID = this.afAuth.auth.currentUser.uid;
       var username;
-      this.afs.collection("profiles").doc<IProfile>(uID).valueChanges().subscribe(profileData => {
-        username = profileData.PSN;
+
+      if (!this.stack) {
         this.stack = {
           description: "",
           type: "",
@@ -51,6 +55,12 @@ export class Create1Page {
           platform: "",
           skill_range: { lower: 2000, upper: 3000 }
         } as IStack;
+      } else {
+        this.isEdit = true;
+      }
+
+      this.afs.collection("profiles").doc<IProfile>(uID).valueChanges().subscribe(profileData => {
+        username = profileData.PSN;
       });
     }
   }
@@ -61,7 +71,12 @@ export class Create1Page {
     }
 
     this.stack.dateTime = firestore.FieldValue.serverTimestamp();
-    this.stacksCol.add(this.stack);
+    if (!this.isEdit) {
+      this.stacksCol.add(this.stack);
+    } else {
+      console.log(this.stackID);
+      this.stacksCol.doc(String(this.stackID)).set(this.stack);
+    }
     this.navCtrl.push('List1Page', { Id: this.ID });
 
   }

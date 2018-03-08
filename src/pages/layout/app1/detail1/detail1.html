@@ -14,6 +14,20 @@
 
 
 <ion-content padding>
+  <div *ngIf="stack">
+    <ion-row>
+      <ion-col>
+        <button ion-button full (click)="editStack()" *ngIf="stack.owner == username">
+          Edit Stack
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button full color="secondary" (click)="bumpStack()" *ngIf="stack.owner == username">
+          Bump Stack
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
   <ion-card *ngIf="stack">
       <ion-card-header>
         Description
@@ -63,6 +77,10 @@
     <ion-item>
       <ion-label fixed>Skill Range</ion-label>
       <ion-label>{{stack.skill_range.lower}} - {{stack.skill_range.upper}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Owner</ion-label>
+      <ion-label>{{ stack.owner }}</ion-label>
     </ion-item>
   </ion-card>
 </ion-content>

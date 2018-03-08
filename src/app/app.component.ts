@@ -24,7 +24,8 @@ export class MyApp {
 
     this.pages = [ 
       { icon:'game-controller-b', title:'Games', component: "Category1Page" },
-      { icon:'person', title:'Profile', component: "UpdateProfilePage" }
+      { icon:'person', title:'Profile', component: "UpdateProfilePage" },
+      { icon:'paper-plane', title:'Feedback', component: "UpdateFeedbackPage" }
       
     ];
 

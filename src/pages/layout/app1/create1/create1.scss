@@ -2,5 +2,11 @@ page-create1 {
     .content {
         background-color:#eee;
     }
-
+    ion-footer {
+        
+        position: fixed;
+        left: 0;
+        bottom: 10px;
+        right: 0;
+    }
 }

@@ -39,16 +39,21 @@ export class Category1Page {
         });
     });
 
-
     //** Exit */
     loadingPopup.dismiss();
-
 
     if (this.navParams.get("action") == "updatedProfile")
     {
       let toast = this.toaster.create({
         message: "Profile Has Been Updated!",
         duration: 3000
+      })
+      toast.present();
+    } else if (this.navParams.get("action") == "updateProfile") {
+      let toast = this.toaster.create({
+        message: "You're unable to create a stack until you have created a username.\nHead back to the games page, click the menu button in the top left, and then click 'Profile' settings.",
+        duration: 10000,
+        showCloseButton: true
       })
       toast.present();
     } else {

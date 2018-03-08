@@ -14,6 +14,19 @@
         (click)="getAllItems()">
       </ion-searchbar>
     </ion-toolbar>
+    <ion-toolbar no-border-top color="primary">
+      <ion-segment [(ngModel)]="activePlatform" color="white" (ionChange)="onSegmentChange()">
+        <ion-segment-button value="PlayStation">
+          <ion-icon name="logo-playstation"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="Xbox">
+          <ion-icon name="logo-xbox"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="PC">
+          <ion-icon name="logo-steam"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -26,15 +39,18 @@
   <!--*********** List  ***********-->
   <ion-card *ngFor="let stack of stacks | async" (click)="openStack(stack.id)">      
     <ion-card-content>
-      <h1>
-        {{stack.data.description}}
-      </h1>
+      <h3>
+        <ion-icon name="logo-{{ getIcon(stack.data.platform) }}" [ngStyle]="getIconColor(stack.data.platform)"></ion-icon> &middot;
+        {{ stack.data.description }} &middot;
+        Now
+      </h3>
       <p style="margin-top:25px;">
           <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.type }}</ion-badge>
           <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.comp }}</ion-badge>
           <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.tank_heroes }}</ion-badge>
           <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.dps_heroes }}</ion-badge>
           <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.support_heroes }}</ion-badge>
+          <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.platform }}</ion-badge>
           <ion-badge color="primary" style="margin-bottom:5px;">{{ stack.data.skill_range.lower }} - {{ stack.data.skill_range.upper }} SR</ion-badge>
       </p>
     </ion-card-content>

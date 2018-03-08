@@ -12,6 +12,7 @@ export interface IStack {
 	tank_heroes: string;
 	dps_heroes: string;
 	support_heroes: string;
+	platform: string;
 	skill_range: ISkillRange;
 	dateTime: Date;
 	slots: ISlot[]; 

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { firestore } from 'firebase/app';
 
 
-import { IStack } from '../../../../app/app.interfaces';
+import { IStack, IProfile } from '../../../../app/app.interfaces';
 
 /**
  * Generated class for the Create1Page page.
@@ -27,7 +28,7 @@ export class Create1Page {
   stacksCol: AngularFirestoreCollection<IStack>;
   error = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, public afAuth: AngularFireAuth) {
     this.ID = this.navParams.get('Id');
     this.stacksCol = this.navParams.get('stacksCol');
     if (this.ID == null) {
@@ -35,16 +36,22 @@ export class Create1Page {
       this.navCtrl.push('Category1Page');
       return;
     } else {
-      this.stack = {
-        description: "",
-        type: "",
-        comp: "",
-        tank_heroes: "",
-        dps_heroes: "",
-        support_heroes: "",
-        skill_range: { lower: 2000, upper: 3000 }
-      } as IStack;
-
+      var uID = this.afAuth.auth.currentUser.uid;
+      var username;
+      this.afs.collection("profiles").doc<IProfile>(uID).valueChanges().subscribe(profileData => {
+        username = profileData.PSN;
+        this.stack = {
+          description: "",
+          type: "",
+          comp: "",
+          tank_heroes: "",
+          dps_heroes: "",
+          support_heroes: "",
+          owner: username,
+          platform: "",
+          skill_range: { lower: 2000, upper: 3000 }
+        } as IStack;
+      });
     }
   }
 
@@ -97,7 +104,7 @@ export class Create1Page {
   }
 
   isValidForm():boolean {
-    if (this.stack.description && this.stack.type && this.stack.comp) {
+    if (this.stack.description && this.stack.type && this.stack.comp && this.stack.platform) {
       return true;
     } else {
       return false;

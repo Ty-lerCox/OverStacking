@@ -37,16 +37,16 @@ export class Detail1Page {
       this.navCtrl.push('Category1Page');
       return;
     } else {
-
-      console.log(this.stacksCol);
       this.stacksCol.doc<IStack>(String(this.stackID)).valueChanges().subscribe(data => {
         this.stack = data;
         this.uID = this.afa.auth.currentUser.uid;
         this.email = this.afa.auth.currentUser.email;
         this.afs.collection("profiles").doc<IProfile>(this.uID).valueChanges().subscribe(profileData => {
+          this.disabled = false;
           if (profileData) {
-            if (profileData.PSN != null) {
+            if ((profileData.PSN != null) && (profileData.PSN != "")) {
               this.username = profileData.PSN;
+              this.disabled = false;
             } else {
               this.disabled = true;
             }
@@ -54,7 +54,7 @@ export class Detail1Page {
             this.disabled = true;
           }
 
-          if (this.disabled) {
+          if (this.disabled == true) {
             var jointoast = this.toast.create({
               message: "You're unable to join a stack until you have entered a PSN name.\nHead back to the games page, click the menu button in the top left, and then click 'Profile' settings.",
               duration: 10000,
@@ -63,7 +63,6 @@ export class Detail1Page {
             jointoast.present();
           }
         });
-        console.log(this.email);
         this.mapRequiredHeroes();
         this.isAllowedRoleSelect();
         console.log(data);
@@ -260,7 +259,7 @@ export class Detail1Page {
     if (!this.stack.slots) {
       disabled = false;
     }
-    if (this.disabled) {
+    if (this.disabled == true) {
       disabled = true;
     }
     try {   

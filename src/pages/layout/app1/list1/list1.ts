@@ -15,6 +15,7 @@ export class List1Page {
   ID:any;
   stacksCol: AngularFirestoreCollection<IStack>;
   stacks: any;
+  activePlatform;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController,public loadingCtrl: LoadingController , public afs: AngularFirestore) {
 
@@ -33,12 +34,12 @@ export class List1Page {
       this.stacksCol = this.afs.collection('games').doc(String(this.ID)).collection('stacks');
       //this.stacks = this.stacksCol.valueChanges();
       this.stacks = this.stacksCol.snapshotChanges()
-      .map(actions => {
-        return actions.map(prop => {
-          const id = prop.payload.doc.id;
-          const data = prop.payload.doc.data() as IStack;
-          return { id, data }
-        })
+        .map(actions => {
+          return actions.map(prop => {
+            const id = prop.payload.doc.id;
+            const data = prop.payload.doc.data() as IStack;
+            return { id, data }
+          })
       })
     }
 
@@ -63,5 +64,45 @@ export class List1Page {
 
   createNewStack() {
     this.navCtrl.push('Create1Page', {Id: this.ID, stacksCol: this.stacksCol });
+  }
+
+  onSegmentChange() {
+    this.stacks = this.afs.collection('games').doc(String(this.ID)).collection('stacks', ref => ref.where("platform","==", this.activePlatform)).snapshotChanges()
+      .map(actions => {
+        return actions.map(prop => {
+          const id = prop.payload.doc.id;
+          const data = prop.payload.doc.data() as IStack;
+          return { id, data }
+        })
+    })
+  }
+
+  getIcon(platform): string {
+    switch (platform) {
+      case "PlayStation":
+        return "playstation";
+      case "Xbox":
+        return "xbox";
+      case "PC":
+        return "steam";
+    }
+  }
+
+  getIconColor(platform) {
+    var color = "#000";
+    switch (platform) {
+      case "PlayStation":
+        color = "#1C99E5";
+        break;
+      case "Xbox":
+        color = "#2EAF2C";
+        break;
+      case "PC":
+        color = "#434343";
+        break;
+    }
+    return {
+      "color": color
+    }
   }
 }

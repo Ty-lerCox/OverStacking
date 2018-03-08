@@ -19,8 +19,22 @@
   </p>
   <ion-list *ngIf="stack">
     <ion-item>
+      <ion-label color="black" stacked>Stack Owner</ion-label>
+      <ion-input type="text" [(ngModel)]="stack.owner" [disabled]="true"></ion-input>
+    </ion-item>
+
+    <ion-item>
       <ion-label color="black" stacked>Stack Description</ion-label>
       <ion-input type="text" [(ngModel)]="stack.description"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="black" stacked>Stack Platform</ion-label>
+      <ion-select [(ngModel)]="stack.platform">
+          <ion-option value="PlayStation">PlayStation</ion-option>
+          <ion-option value="Xbox">Xbox</ion-option>
+          <ion-option value="PC">PC</ion-option>
+        </ion-select>
     </ion-item>
 
     <ion-item>
@@ -81,7 +95,7 @@
       </ion-select>
     </ion-item>
 
-    <ion-list-header>
+    <ion-list-header no-lines>
         Skill Range
       <ion-badge item-end color="primary">{{stack.skill_range.lower}}</ion-badge>
       <ion-badge item-end color="primary">{{stack.skill_range.upper}}</ion-badge>

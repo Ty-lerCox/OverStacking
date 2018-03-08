@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import 'rxjs/add/operator/map';
@@ -18,7 +18,7 @@ export class Category1Page {
   user;
 
 
-  constructor(public navCtrl: NavController,public navParams: NavParams,public loadingCtrl: LoadingController, public afs: AngularFirestore, public afAuth: AngularFireAuth) {
+  constructor(public navCtrl: NavController,public navParams: NavParams,public loadingCtrl: LoadingController, public afs: AngularFirestore, public afAuth: AngularFireAuth, public toaster: ToastController) {
 
     //**Loading Screen */
     let loadingPopup = this.loadingCtrl.create({
@@ -42,6 +42,17 @@ export class Category1Page {
 
     //** Exit */
     loadingPopup.dismiss();
+
+
+    if (this.navParams.get("action") == "updatedProfile")
+    {
+      let toast = this.toaster.create({
+        message: "Profile Has Been Updated!",
+        duration: 3000
+      })
+      toast.present();
+    } else {
+    }
 
   }
 

@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Navbar, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Navbar, Events, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import 'rxjs/add/operator/map';
 
-import { IStack } from '../../../../app/app.interfaces'
+import { IStack, IProfile } from '../../../../app/app.interfaces'
 
 
 @IonicPage()
@@ -24,9 +24,11 @@ export class Detail1Page {
   supportCount: number;
   uID;
   email;
+  username;
+  disabled;
   isAllowedToSelect: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, private afa: AngularFireAuth, public eventsCtrl: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, private afa: AngularFireAuth, public eventsCtrl: Events, public toast: ToastController) {
     this.ID = this.navParams.get('Id');
     this.stackID = this.navParams.get('stackId');
     this.stacksCol = this.navParams.get('stacksCol');
@@ -41,6 +43,26 @@ export class Detail1Page {
         this.stack = data;
         this.uID = this.afa.auth.currentUser.uid;
         this.email = this.afa.auth.currentUser.email;
+        this.afs.collection("profiles").doc<IProfile>(this.uID).valueChanges().subscribe(profileData => {
+          if (profileData) {
+            if (profileData.PSN != null) {
+              this.username = profileData.PSN;
+            } else {
+              this.disabled = true;
+            }
+          } else {
+            this.disabled = true;
+          }
+
+          if (this.disabled) {
+            var jointoast = this.toast.create({
+              message: "You're unable to join a stack until you have entered a PSN name.\nHead back to the games page, click the menu button in the top left, and then click 'Profile' settings.",
+              duration: 10000,
+              showCloseButton: true
+            });
+            jointoast.present();
+          }
+        });
         console.log(this.email);
         this.mapRequiredHeroes();
         this.isAllowedRoleSelect();
@@ -194,6 +216,21 @@ export class Detail1Page {
     } catch (e) {
     }
 
+    // get usernames from slots
+    try {
+      this.stack.slots.forEach((slot, indexSlot) => {
+        this.heroes.forEach((hero, indexHero) => {
+          if (slot.name == hero.name) {
+            if (slot.userID != "")
+            {
+              this.heroes[indexHero].username = slot.username;
+            }
+          }
+        });
+      });
+    } catch (e) {
+    }
+
   }
 
   getChecked(hero): boolean {
@@ -222,6 +259,9 @@ export class Detail1Page {
     var hitBreaker = false;
     if (!this.stack.slots) {
       disabled = false;
+    }
+    if (this.disabled) {
+      disabled = true;
     }
     try {   
 
@@ -275,7 +315,7 @@ export class Detail1Page {
       slots.push({
         name: hero,
         userID: this.uID,
-        username: this.email
+        username: this.username
       });
       return this.stacksCol.doc<IStack>(String(this.stackID)).update({
         slots: slots

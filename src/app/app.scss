@@ -19,20 +19,25 @@
 // Material Design Sidemenu
 @import '../theme/animations';
 
+.logoname {
+  width: 76.8px;
+  height: 64px;
+ // -webkit-transform: scale(0.5); /* Saf3.1+, Chrome */
+}
 
 #menu-material {
   .list-box{
     margin-top:175px;
   }
   .menu-header {
-    padding-top: 100px;
+    padding-top: 60px;
     padding-right: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 0px;
     padding-left: 15px;
     // background-image: url('../assets/md-bg2.jpg');
     background-size: cover;
-    background-color: color($colors, secondary);
-    color: white;
+    background-color: #eee;
+    color: #444;
     min-height:150px;
     .name {
       font-weight: 400;

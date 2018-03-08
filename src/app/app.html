@@ -4,37 +4,33 @@
 
 <!--***********  Side menu for android ***********-->
       <div id="menu-material" showWhen="android">
-          <ion-header class="menu-header">      
-            <p class="name">OverStacking</p>
-            <p class="email">Bringing the brightest of gamers together.</p>
-          </ion-header>
-      <!--***********  Menu for android  ***********-->
-          <div class="list-box">
-            <ion-list  no-lines>
-
-              <div *ngFor="let p of pages">
-                <ion-item menuClose (click)="openPage(p)">
-                  <ion-icon  [name]="p.icon" color="gray"item-left></ion-icon>
-                    {{p.title}}
+        <ion-header class="menu-header">
+          <img class="logoname"  src="./assets/gimp.png" />
+          <p style="font-size:12px;">Bringing the brightest of gamers together.</p>
+        </ion-header>
+        <!--***********  Menu for android  ***********-->
+        <div class="list-box">
+          <ion-list  no-lines>
+            <div *ngFor="let p of pages">
+              <ion-item menuClose (click)="openPage(p)">
+                <ion-icon  [name]="p.icon" color="gray" item-left></ion-icon>
+                  {{p.title}}
+              </ion-item>
+            </div>
+            <div *ngFor="let d of menu">
+              <ion-item tappable  (click)="toggleDetails(d)">
+                <ion-icon color="gray" [name]="d.iconLeft" item-left></ion-icon>
+                  {{d.title}}
+                <ion-icon item-right [name]="d.icon"></ion-icon>
+              </ion-item>
+              <div class="sub-menu" *ngIf="d.showDetails">
+                <ion-item tappable  menuClose item-right *ngFor="let item of d.items"  (click)="openPage(item)">
+                    <div>{{item.name}}</div>             
                 </ion-item>
-              </div> 
-              
-              <div *ngFor="let d of menu">
-                  <ion-item tappable  (click)="toggleDetails(d)">
-                    <ion-icon  color="gray" [name]="d.iconLeft" item-left></ion-icon>
-                      {{d.title}}
-                    <ion-icon item-right [name]="d.icon"></ion-icon>
-                  </ion-item>
-                      <div class="sub-menu"  *ngIf="d.showDetails"   >
-                            <ion-item tappable  menuClose item-right *ngFor="let item of d.items"  (click)="openPage(item)" >
-                                <div >{{item.name}}</div>             
-                            </ion-item>
-                      </div>
-              </div> 
-
-
-            </ion-list>
-          </div>
+              </div>
+            </div>
+          </ion-list>
+        </div>
       </div>
 
 

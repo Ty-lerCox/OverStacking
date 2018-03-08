@@ -23,8 +23,8 @@ export class MyApp {
     ];
 
     this.pages = [ 
-      { icon:'bookmark', title:'Games', component: "Category1Page" },
-      { icon:'bookmark', title:'Profile', component: "Category1Page" }
+      { icon:'game-controller-b', title:'Games', component: "Category1Page" },
+      { icon:'person', title:'Profile', component: "UpdateProfilePage" }
       
     ];
 
@@ -39,6 +39,7 @@ export class MyApp {
       this.splashScreen.hide();
     });
   }
+
   toggleDetails(menu) {
     if (menu.showDetails) {
         menu.showDetails = false;

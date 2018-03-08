@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <ion-title>Update Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="profile">
+      <ion-item>
+        <ion-label color="black" stacked>Username</ion-label>
+        <ion-input type="text" [(ngModel)]="profile.Username"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="black" stacked>PSN Name</ion-label>
+        <ion-input type="text" [(ngModel)]="profile.PSN"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="black" stacked>Gamertag</ion-label>
+        <ion-input type="text" [(ngModel)]="profile.Xbox"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="black" stacked>Steam Name</ion-label>
+        <ion-input type="text" [(ngModel)]="profile.Steam"></ion-input>
+      </ion-item>
+  </div>
+
+  <ion-footer *ngIf="profile">
+    <div padding>
+      <button color="primary" ion-button full (click)="update()">Update Profile</button>
+      <button color="white" ion-button full (click)="cancel()">Cancel</button>
+    </div> 
+  </ion-footer>
+</ion-content>

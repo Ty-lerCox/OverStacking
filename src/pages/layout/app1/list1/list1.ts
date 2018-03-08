@@ -57,7 +57,7 @@ export class List1Page {
   }
 
   //Method to override the default back button action
-  setBackButtonAction(){
+  setBackButtonAction() {
     this.navBar.backButtonClick = () => {
       this.navCtrl.popToRoot();
     }

@@ -34,12 +34,13 @@ export class UpdateProfilePage {
             this.profile = data;
           } else {
             this.profile = {} as IProfile;
+            this.profile.Coins = 100;
           }
         });
       } else {
         this.navCtrl.popToRoot();
       }
-    })
+    });
   }
 
   update() {

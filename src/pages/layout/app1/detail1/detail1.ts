@@ -27,12 +27,14 @@ export class Detail1Page {
   email;
   username;
   disabled;
+  user;
   isAllowedToSelect: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, private afa: AngularFireAuth, public eventsCtrl: Events, public toast: ToastController) {
     this.ID = this.navParams.get('Id');
     this.stackID = this.navParams.get('stackId');
     this.stacksCol = this.navParams.get('stacksCol');
+    this.user = this.navParams.get('user');
 
     if (this.ID == null) {
       this.navCtrl.push('Category1Page');

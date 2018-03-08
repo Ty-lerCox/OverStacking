@@ -16,6 +16,7 @@ export interface IStack {
 	skill_range: ISkillRange;
 	dateTime: Date;
 	slots: ISlot[]; 
+	cost: number; 
 }
 
 export interface ISlot {
@@ -34,4 +35,5 @@ export interface IProfile {
 	PSN: string;
 	XBOX: string;
 	Steam: string;
+	Beers: number;
 }

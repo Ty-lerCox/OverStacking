@@ -29,6 +29,7 @@ export class Create1Page {
   error = "";
   isEdit: boolean;
   stackID;
+  user;
   disabled = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, public afAuth: AngularFireAuth) {
@@ -36,6 +37,7 @@ export class Create1Page {
     this.stacksCol = this.navParams.get('stacksCol');
     this.stack = this.navParams.get('stackObj');
     this.stackID = this.navParams.get('stackID');
+    this.user = this.navParams.get('user');
 
     if (this.ID == null) {
       this.navCtrl.push('Category1Page');
@@ -63,6 +65,7 @@ export class Create1Page {
             support_heroes: "",
             owner: username,
             platform: "",
+            cost: 1,
             skill_range: { lower: 2000, upper: 3000 }
           } as IStack;
         } else {
@@ -136,7 +139,7 @@ export class Create1Page {
   }
 
   cancel() {
-    this.navCtrl.push('List1Page', { Id: this.ID });
+    this.navCtrl.push('List1Page', { Id: this.ID, user: this.user });
   }
 
 }

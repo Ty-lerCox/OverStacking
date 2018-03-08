@@ -39,6 +39,16 @@ export class Category1Page {
         });
     });
 
+    this.afAuth.auth.onAuthStateChanged(user => {
+      if (user) {
+        this.afs.collection("profiles").doc(this.afAuth.auth.currentUser.uid).valueChanges().subscribe(userData => {  
+          this.user = userData;
+        })
+      } else {
+        this.navCtrl.setRoot("MainPage");
+      }
+    });
+
     //** Exit */
     loadingPopup.dismiss();
 
@@ -63,7 +73,7 @@ export class Category1Page {
 
   //*********** Open list page  **************/
   openList(Id) {
-      this.navCtrl.push('List1Page', { Id: Id }); 
+      this.navCtrl.push('List1Page', { Id: Id, user: this.user }); 
   }
 
   getGamesCol(): AngularFirestoreCollection<IGame> {
@@ -79,7 +89,6 @@ export class Category1Page {
             return { id, data };
         });
     });
-
   }
 
   signout() {

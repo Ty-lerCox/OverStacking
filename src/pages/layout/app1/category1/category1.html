@@ -1,16 +1,14 @@
 
 <ion-header>
-  <ion-navbar hideBackButton="true"  no-border-bottom color="dark">
+  <ion-navbar hideBackButton="true" no-border-bottom color="dark">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-     Games
+      Games
     </ion-title>
     <ion-buttons right>
-        <button ion-button icon-only (click)="signout()">
-            <ion-icon name="md-more"></ion-icon>
-        </button>
+      <ion-label color="white" stacked><ion-icon name="beer"></ion-icon> {{ (user)?.Beers }}</ion-label>
     </ion-buttons>
   </ion-navbar>
   <ion-toolbar no-border-top color="primary">

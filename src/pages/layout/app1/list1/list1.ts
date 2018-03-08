@@ -17,6 +17,7 @@ export class List1Page {
   stacks: any;
   activePlatform;
   currentTime;
+  user;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController,public loadingCtrl: LoadingController , public afs: AngularFirestore) {
 
@@ -29,6 +30,7 @@ export class List1Page {
 
     //** Stack Collection */
     this.ID = this.navParams.get('Id');
+    this.user = this.navParams.get('user');
     if (this.ID == null) {
       this.navCtrl.push('Category1Page');
     } else {
@@ -62,11 +64,11 @@ export class List1Page {
   }
 
   openStack(stackID) {
-      this.navCtrl.push('Detail1Page', {Id: this.ID, stackId: stackID, stacksCol: this.stacksCol }); 
+      this.navCtrl.push('Detail1Page', {Id: this.ID, stackId: stackID, stacksCol: this.stacksCol, user: this.user }); 
   }
 
   createNewStack() {
-    this.navCtrl.push('Create1Page', {Id: this.ID, stacksCol: this.stacksCol });
+    this.navCtrl.push('Create1Page', {Id: this.ID, stacksCol: this.stacksCol, user: this.user });
   }
 
   onSegmentChange() {

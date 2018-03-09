@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import { firestore } from 'firebase/app';
 
-import { IStack, IProfile } from '../../../../app/app.interfaces'
+import { IStack, IProfile, ISlot } from '../../../../app/app.interfaces'
 
 
 @IonicPage()
@@ -325,6 +325,10 @@ export class Detail1Page {
     var stackCost = this.stack.cost;
     var slotUID;
     var userData;
+    if (this.stack.locked = false) {
+      return;
+    }
+    this.stack.locked = true;
 
     try {
       this.stack.slots.forEach((slot, indexSlot) => {
@@ -358,7 +362,7 @@ export class Detail1Page {
             costResult = userData.Beers - stackCost;
             potResult += stackCost;
             userData.Beers = costResult;
-          } else { 
+          } else {
             this.toast.create({
               message: "Insufficient funds.",
               showCloseButton: true
@@ -381,9 +385,8 @@ export class Detail1Page {
           }
         }
       }
-
-      var slots = this.stack.slots;
-      if (slots == null) {
+      var slots: ISlot[] = this.stack.slots;
+      if ((slots == null) || (slots.length == 0)) {
         slots = [];
       }
 
@@ -403,16 +406,21 @@ export class Detail1Page {
               Beers: costResult
             })
             .then(function() {
+              //this.stack.locked = false;
             })
             .catch(function(error) {
-                // The document probably doesn't exist.
-                console.error("Error updating document: ", error);
+              //this.stack.locked = false;
+              // The document probably doesn't exist.
+              console.error("Error updating document: ", error);
             });
+          } else {
+            //this.stack.locked = false;
           }
         })
         .catch(function(error) {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
+          //this.stack.locked = false;
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
         });
       } else {
         try {
@@ -433,16 +441,21 @@ export class Detail1Page {
                 Beers: costResult
               })
               .then(function() {
+                //this.stack.locked = false;
               })
               .catch(function(error) {
-                  // The document probably doesn't exist.
-                  console.error("Error updating document: ", error);
+                //this.stack.locked = false;
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
               });
+            } else {
+              //this.stack.locked = false;
             }
           })
           .catch(function(error) {
-              // The document probably doesn't exist.
-              console.error("Error updating document: ", error);
+            //this.stack.locked = false;
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
           });
         } catch (e) {
         }

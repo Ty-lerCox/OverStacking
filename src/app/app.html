@@ -101,7 +101,7 @@
                     {{d.title}}
                   <ion-icon item-right [name]="d.icon"></ion-icon>
                 </ion-item>
-                    <div class="sub-menu"  *ngIf="d.showDetails"   >
+                    <div class="sub-menu"  *ngIf="d.showDetails">
                           <ion-item tappable  menuClose item-right *ngFor="let item of d.items"  (click)="openPage(item)" >
                               <div >{{item.name}}</div>             
                           </ion-item>

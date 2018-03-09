@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 //***********  ionic-native **************/
 import { StatusBar } from '@ionic-native/status-bar';
@@ -16,7 +17,7 @@ export class MyApp {
   menu:Array<any> = [];
   pages: Array<any>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private afAuth: AngularFireAuth) {
     this.initializeApp();
 
     this.menu = [
@@ -29,6 +30,10 @@ export class MyApp {
       
     ];
 
+  }
+
+  signout() {
+    this.afAuth.auth.signOut();
   }
 
   initializeApp() {

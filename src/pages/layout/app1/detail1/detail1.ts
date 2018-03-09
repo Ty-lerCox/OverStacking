@@ -28,6 +28,7 @@ export class Detail1Page {
   email;
   username;
   disabled;
+  pendingChanges;
   user;
   isAllowedToSelect: boolean;
 
@@ -264,16 +265,20 @@ export class Detail1Page {
   isSlotDisabled(hero: string): boolean {
     var disabled = false;
     var hitBreaker = false;
+    if (this.pendingChanges) {
+      disabled = true;
+      return disabled;
+    }
     if (this.stack.locked) {
+      disabled = true;
+      return disabled;
+    }
+    if (this.disabled == true) {
       disabled = true;
       return disabled;
     }
     if (!this.stack.slots) {
       disabled = false;
-      return disabled;
-    }
-    if (this.disabled == true) {
-      disabled = true;
       return disabled;
     }
     if (this.stack.owner == this.username) {
@@ -325,10 +330,14 @@ export class Detail1Page {
     var stackCost = this.stack.cost;
     var slotUID;
     var userData;
-    if (this.stack.locked = false) {
+    if (this.stack.locked) {
       return;
     }
-    this.stack.locked = true;
+    this.pendingChanges = true;
+
+    setTimeout(()=>{
+          this.pendingChanges = false;
+    },1000);
 
     try {
       this.stack.slots.forEach((slot, indexSlot) => {
@@ -386,7 +395,7 @@ export class Detail1Page {
         }
       }
       var slots: ISlot[] = this.stack.slots;
-      if ((slots == null) || (slots.length == 0)) {
+      if ((slots == null) || (slots.length < 1)) {
         slots = [];
       }
 
@@ -528,9 +537,10 @@ export class Detail1Page {
       // reset slots
       // reset pot
       this.stacksCol.doc(this.stackID).update({
-        slots: {},
-        pot: 0
-      });
+        slots: [],
+        pot: 0,
+        locked: false
+      })
       // add beers
       this.afs.collection("profiles").doc(this.uID).update({
         Beers: beers + pot

@@ -30,7 +30,7 @@
 
     <ion-item *ngIf="ID == '1'">
       <ion-label color="black" stacked>Stack Cost Per Win: <ion-icon name="beer"></ion-icon> {{ intToStr(stack.cost) }} beers</ion-label>
-      <ion-range min="1" max="10" [(ngModel)]="stack.cost" color="secondary">
+      <ion-range min="1" max="10" [(ngModel)]="stack.cost" color="secondary" [disabled]="isEdit">
         <ion-label range-left>1</ion-label>
         <ion-label range-right>10</ion-label>
       </ion-range>

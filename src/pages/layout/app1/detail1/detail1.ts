@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Navbar, Events, ToastController } 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/take';
 import { firestore } from 'firebase/app';
 
 import { IStack, IProfile } from '../../../../app/app.interfaces'
@@ -34,7 +35,10 @@ export class Detail1Page {
     this.ID = this.navParams.get('Id');
     this.stackID = this.navParams.get('stackId');
     this.stacksCol = this.navParams.get('stacksCol');
-    this.user = this.navParams.get('user');
+    this.uID = this.afa.auth.currentUser.uid;
+    this.afs.collection("profiles").doc<IProfile>(this.uID).valueChanges().subscribe(profileData => {
+      this.user = profileData;
+    });
 
     if (this.ID == null) {
       this.navCtrl.push('Category1Page');
@@ -319,78 +323,75 @@ export class Detail1Page {
     var costResult = 0;
     var potResult = this.stack.pot;
     var stackCost = this.stack.cost;
-    var docRef = this.afs.collection("profiles").doc(String(this.uID));
+    var slotUID;
+    var userData;
 
-
-    this.heroes.forEach((item, i) => {
-      if (item.name == hero) {
-        index = i;
-      }
-    });
-
-    if (this.heroes[index].checked) {
-      if (stackCost > 0) {
-        if (this.user.Beers - stackCost >= 0) {
-          costResult = this.user.Beers - stackCost;
-          potResult += stackCost;
-          this.user.Beers = costResult;
-        } else { 
-          this.toast.create({
-            message: "Insufficient funds.",
-            showCloseButton: true
-          }).present();
-          return;
-        }
-      }
-    } else {
-      if (stackCost > 0) {
-        if (this.user.Beers - stackCost >= 0) {
-          costResult = this.user.Beers + stackCost;
-          potResult -= stackCost;
-          this.user.Beers = costResult;
-        } else { 
-          this.toast.create({
-            message: "Insufficient funds.",
-            showCloseButton: true
-          }).present();
-          return;
-        }
-      }
-    }
-    var slots = this.stack.slots;
-    if (slots.length == null) {
-      slots = [];
-    }
-
-    if (this.heroes[index].checked) {
-      slots.push({
-        name: hero,
-        userID: this.uID,
-        username: this.username
-      });
-      return this.stacksCol.doc<IStack>(String(this.stackID)).update({
-        slots: slots,
-        pot: potResult
-      })
-      .then(function() {
-        if (stackCost > 0) {
-          docRef.update({
-            Beers: costResult
-          });
-        }
-      })
-      .catch(function(error) {
-          // The document probably doesn't exist.
-          console.error("Error updating document: ", error);
-      });
-    } else {
-      try {
-        slots.forEach((item, index) => {
-          if (item.name == hero) {
-            slots[index].name = "";
-            slots[index].userID = "";
-            slots[index].username = "";
+    try {
+      this.stack.slots.forEach((slot, indexSlot) => {
+        this.heroes.forEach((hero, indexHero) => {
+          if (slot.name == hero.name) {
+            slotUID = slot.userID;
           }
+        });
+      });
+    } catch (e) {
+    }
+
+    if (slotUID == null) {
+      slotUID = this.uID;
+    }
+
+    console.log(slotUID);
+    var docRef = this.afs.collection("profiles").doc(slotUID);
+    docRef.valueChanges().take(1).subscribe(data => {
+      userData = data;
+
+      this.heroes.forEach((item, i) => {
+        if (item.name == hero) {
+          index = i;
+        }
+      });
+
+      if (this.heroes[index].checked) {
+        if (stackCost > 0) {
+          if (userData.Beers - stackCost >= 0) {
+            costResult = userData.Beers - stackCost;
+            potResult += stackCost;
+            userData.Beers = costResult;
+          } else { 
+            this.toast.create({
+              message: "Insufficient funds.",
+              showCloseButton: true
+            }).present();
+            return;
+          }
+        }
+      } else {
+        if (stackCost > 0) {
+          if (userData.Beers - stackCost >= 0) {
+            costResult = userData.Beers + stackCost;
+            potResult -= stackCost;
+            userData.Beers = costResult;
+          } else { 
+            this.toast.create({
+              message: "Insufficient funds.",
+              showCloseButton: true
+            }).present();
+            return;
+          }
+        }
+      }
+
+      var slots = this.stack.slots;
+      if (slots == null) {
+        slots = [];
+      }
+
+      if (this.heroes[index].checked) {
+        slots.push({
+          name: hero,
+          userID: this.uID,
+          username: this.username
         });
         return this.stacksCol.doc<IStack>(String(this.stackID)).update({
           slots: slots,
@@ -400,6 +401,12 @@ export class Detail1Page {
           if (stackCost > 0) {
             docRef.update({
               Beers: costResult
+            })
+            .then(function() {
+            })
+            .catch(function(error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
             });
           }
         })
@@ -407,9 +414,41 @@ export class Detail1Page {
             // The document probably doesn't exist.
             console.error("Error updating document: ", error);
         });
-      } catch (e) {
+      } else {
+        try {
+          slots.forEach((item, index) => {
+            if (item.name == hero) {
+              slots[index].name = "";
+              slots[index].userID = "";
+              slots[index].username = "";
+            }
+          });
+          return this.stacksCol.doc<IStack>(String(this.stackID)).update({
+            slots: slots,
+            pot: potResult
+          })
+          .then(function() {
+            if (stackCost > 0) {
+              docRef.update({
+                Beers: costResult
+              })
+              .then(function() {
+              })
+              .catch(function(error) {
+                  // The document probably doesn't exist.
+                  console.error("Error updating document: ", error);
+              });
+            }
+          })
+          .catch(function(error) {
+              // The document probably doesn't exist.
+              console.error("Error updating document: ", error);
+          });
+        } catch (e) {
+        }
       }
-    }
+    });
+
   }
 
   isAllowedRoleSelect() {
@@ -458,9 +497,13 @@ export class Detail1Page {
 
   lockStack() {
     if (this.stack.locked) {
-      this.stack.locked = false;
+      this.stacksCol.doc(this.stackID).update({
+        locked: false
+      });
     } else {
-      this.stack.locked = true;
+      this.stacksCol.doc(this.stackID).update({
+        locked: true
+      });
     }
   }
 

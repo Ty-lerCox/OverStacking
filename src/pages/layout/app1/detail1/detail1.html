@@ -79,6 +79,10 @@
     </ion-card-header>
     <hr>
     <ion-item>
+      <ion-label fixed>Owner</ion-label>
+      <ion-label>{{ stack.owner }}</ion-label>
+    </ion-item>
+    <ion-item>
       <ion-label fixed>Type</ion-label>
       <ion-label>{{ stack.type }}</ion-label>
     </ion-item>
@@ -101,10 +105,6 @@
     <ion-item>
       <ion-label fixed>Skill Range</ion-label>
       <ion-label>{{stack.skill_range.lower}} - {{stack.skill_range.upper}}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Owner</ion-label>
-      <ion-label>{{ stack.owner }}</ion-label>
     </ion-item>
   </ion-card>
 </ion-content>

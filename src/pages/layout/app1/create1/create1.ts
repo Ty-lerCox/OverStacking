@@ -66,6 +66,8 @@ export class Create1Page {
             owner: username,
             platform: "",
             cost: 1,
+            pot: 0,
+            locked: false,
             skill_range: { lower: 2000, upper: 3000 }
           } as IStack;
         } else {
@@ -142,4 +144,7 @@ export class Create1Page {
     this.navCtrl.push('List1Page', { Id: this.ID, user: this.user });
   }
 
+  intToStr(num) {
+    return String(num);
+  }
 }

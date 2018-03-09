@@ -16,7 +16,9 @@ export interface IStack {
 	skill_range: ISkillRange;
 	dateTime: Date;
 	slots: ISlot[]; 
-	cost: number; 
+	cost: number;
+	pot: number;
+	locked: boolean;
 }
 
 export interface ISlot {

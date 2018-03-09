@@ -46,6 +46,7 @@ export class Detail1Page {
         this.email = this.afa.auth.currentUser.email;
         this.afs.collection("profiles").doc<IProfile>(this.uID).valueChanges().subscribe(profileData => {
           this.disabled = false;
+
           if (profileData) {
             if ((profileData.PSN != null) && (profileData.PSN != "")) {
               this.username = profileData.PSN;
@@ -259,6 +260,10 @@ export class Detail1Page {
   isSlotDisabled(hero: string): boolean {
     var disabled = false;
     var hitBreaker = false;
+    if (this.stack.locked) {
+      disabled = true;
+      return disabled;
+    }
     if (!this.stack.slots) {
       disabled = false;
       return disabled;
@@ -311,15 +316,52 @@ export class Detail1Page {
 
   roleSelected(event: any, hero: string) {
     var index;
+    var costResult = 0;
+    var potResult = this.stack.pot;
+    var stackCost = this.stack.cost;
+    var docRef = this.afs.collection("profiles").doc(String(this.uID));
+
+
     this.heroes.forEach((item, i) => {
       if (item.name == hero) {
         index = i;
       }
     });
+
+    if (this.heroes[index].checked) {
+      if (stackCost > 0) {
+        if (this.user.Beers - stackCost >= 0) {
+          costResult = this.user.Beers - stackCost;
+          potResult += stackCost;
+          this.user.Beers = costResult;
+        } else { 
+          this.toast.create({
+            message: "Insufficient funds.",
+            showCloseButton: true
+          }).present();
+          return;
+        }
+      }
+    } else {
+      if (stackCost > 0) {
+        if (this.user.Beers - stackCost >= 0) {
+          costResult = this.user.Beers + stackCost;
+          potResult -= stackCost;
+          this.user.Beers = costResult;
+        } else { 
+          this.toast.create({
+            message: "Insufficient funds.",
+            showCloseButton: true
+          }).present();
+          return;
+        }
+      }
+    }
     var slots = this.stack.slots;
-    if (!slots){
+    if (slots.length == null) {
       slots = [];
     }
+
     if (this.heroes[index].checked) {
       slots.push({
         name: hero,
@@ -327,10 +369,15 @@ export class Detail1Page {
         username: this.username
       });
       return this.stacksCol.doc<IStack>(String(this.stackID)).update({
-        slots: slots
+        slots: slots,
+        pot: potResult
       })
       .then(function() {
-          console.log("Document successfully updated!");
+        if (stackCost > 0) {
+          docRef.update({
+            Beers: costResult
+          });
+        }
       })
       .catch(function(error) {
           // The document probably doesn't exist.
@@ -346,10 +393,15 @@ export class Detail1Page {
           }
         });
         return this.stacksCol.doc<IStack>(String(this.stackID)).update({
-          slots: slots
+          slots: slots,
+          pot: potResult
         })
         .then(function() {
-            console.log("Document successfully updated!");
+          if (stackCost > 0) {
+            docRef.update({
+              Beers: costResult
+            });
+          }
         })
         .catch(function(error) {
             // The document probably doesn't exist.
@@ -403,6 +455,35 @@ export class Detail1Page {
         console.error("Error updating document: ", error);
     });
   }
-  
 
+  lockStack() {
+    if (this.stack.locked) {
+      this.stack.locked = false;
+    } else {
+      this.stack.locked = true;
+    }
+  }
+
+  winStack() {
+    var pot = this.stack.pot;
+    var beers = this.user.Beers;
+
+    if (this.stack.locked) {
+      // reset slots
+      // reset pot
+      this.stacksCol.doc(this.stackID).update({
+        slots: {},
+        pot: 0
+      });
+      // add beers
+      this.afs.collection("profiles").doc(this.uID).update({
+        Beers: beers + pot
+      })
+    }
+
+  }
+
+  intToStr(num) {
+    return String(num);
+  }
 }

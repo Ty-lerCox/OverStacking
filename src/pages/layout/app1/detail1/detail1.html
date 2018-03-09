@@ -29,6 +29,18 @@
         </button>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button full color="darkGray" (click)="lockStack()" *ngIf="stack.owner == username">
+          Lock Stack
+        </button>
+      </ion-col>
+      <ion-col *ngIf="stack.cost > 0">
+        <button ion-button full color="danger" (click)="winStack()" [disabled]="!stack.locked" *ngIf="stack.owner == username">
+          Collect Win
+        </button>
+      </ion-col>
+    </ion-row>
   </div>
   <ion-card *ngIf="stack">
       <ion-card-header>
@@ -41,6 +53,16 @@
         </div>
       </ion-card-content>
   </ion-card>
+  <div *ngIf="stack">
+    <ion-card *ngIf="stack.cost > 0">
+        <ion-card-header>
+          Cost per Win: <ion-icon name="beer"></ion-icon> {{ intToStr(stack.cost) }}
+        </ion-card-header>
+        <ion-card-content>
+          Current Pot: <ion-icon name="beer"></ion-icon> {{ intToStr(stack.pot) }}
+        </ion-card-content>
+    </ion-card>
+  </div>
   <ion-card *ngIf="stack">
       <ion-card-header>
         Role Select

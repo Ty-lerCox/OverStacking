@@ -478,9 +478,9 @@ export class Detail1Page {
       // add beers
       this.afs.collection("profiles").doc(this.uID).update({
         Beers: beers + pot
-      })
+      });
+      this.user.Beers += pot;
     }
-
   }
 
   intToStr(num) {

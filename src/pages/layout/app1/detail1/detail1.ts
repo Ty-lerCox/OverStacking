@@ -341,11 +341,9 @@ export class Detail1Page {
 
     try {
       this.stack.slots.forEach((slot, indexSlot) => {
-        this.heroes.forEach((hero, indexHero) => {
-          if (slot.name == hero.name) {
-            slotUID = slot.userID;
-          }
-        });
+        if (slot.name == hero) {
+          slotUID = slot.userID;
+        }
       });
     } catch (e) {
     }

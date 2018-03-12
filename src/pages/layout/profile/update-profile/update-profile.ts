@@ -28,7 +28,8 @@ export class UpdateProfilePage {
   }
 
   handleEnter() {
-    this.keyboard.close()
+    this.keyboard.close();
+    console.log("test");
   }
 
   async getProfileData() {

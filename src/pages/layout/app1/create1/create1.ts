@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, NavOptions } from 'ionic-angular';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { firestore } from 'firebase/app';
+import { Keyboard } from '@ionic-native/keyboard';
 
 
 import { IStack, IProfile } from '../../../../app/app.interfaces';
@@ -32,7 +33,7 @@ export class Create1Page {
   user;
   disabled = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, public afAuth: AngularFireAuth) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, public afAuth: AngularFireAuth, private keyboard: Keyboard) {
     this.ID = this.navParams.get('Id');
     this.stacksCol = this.navParams.get('stacksCol');
     this.stack = this.navParams.get('stackObj');
@@ -77,6 +78,10 @@ export class Create1Page {
 
 
     }
+  }
+
+  handleEnter() {
+    this.keyboard.close();
   }
 
   createStack() {

@@ -36,15 +36,15 @@ export class Detail1Page {
     this.ID = this.navParams.get('Id');
     this.stackID = this.navParams.get('stackId');
     this.stacksCol = this.navParams.get('stacksCol');
-    this.uID = this.afa.auth.currentUser.uid;
-    this.afs.collection("profiles").doc<IProfile>(this.uID).valueChanges().subscribe(profileData => {
-      this.user = profileData;
-    });
 
     if (this.ID == null) {
       this.navCtrl.push('Category1Page');
       return;
     } else {
+      this.uID = this.afa.auth.currentUser.uid;
+      this.afs.collection("profiles").doc<IProfile>(this.uID).valueChanges().subscribe(profileData => {
+        this.user = profileData;
+      });
       this.stacksCol.doc<IStack>(String(this.stackID)).valueChanges().subscribe(data => {
         this.stack = data;
         this.uID = this.afa.auth.currentUser.uid;
@@ -52,9 +52,21 @@ export class Detail1Page {
         this.afs.collection("profiles").doc<IProfile>(this.uID).valueChanges().subscribe(profileData => {
           this.disabled = false;
 
+          var username;
+          switch (this.stack.platform) {
+            case "PlayStation":
+              username = profileData.PSN;
+              break;
+            case "Xbox":
+              username = profileData.Xbox;
+              break;
+            case "PC":
+              username = profileData.Steam;
+              break;
+          }
           if (profileData) {
-            if ((profileData.PSN != null) && (profileData.PSN != "")) {
-              this.username = profileData.PSN;
+            if ((username != null) && (username != "")) {
+              this.username = username;
               this.disabled = false;
             } else {
               this.disabled = true;
@@ -65,7 +77,7 @@ export class Detail1Page {
 
           if (this.disabled == true) {
             var jointoast = this.toast.create({
-              message: "You're unable to join a stack until you have entered a PSN name.\nHead back to the games page, click the menu button in the top left, and then click 'Profile' settings.",
+              message: "You're unable to join a stack until you have entered a name for " + this.stack.platform + ".\nHead back to the games page, click the menu button in the top left, and then click 'Profile' settings.",
               duration: 10000,
               showCloseButton: true
             });
@@ -397,6 +409,9 @@ export class Detail1Page {
         slots = [];
       }
 
+      if (potResult == null) {
+        potResult = 0;
+      }
       if (this.heroes[index].checked) {
         slots.push({
           name: hero,

@@ -35,7 +35,7 @@ export interface ISkillRange {
 export interface IProfile {
 	Username: string;
 	PSN: string;
-	XBOX: string;
+	Xbox: string;
 	Steam: string;
 	Beers: number;
 }

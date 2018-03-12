@@ -93,6 +93,19 @@ export class List1Page {
     }
   }
 
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      refresher.complete();
+    }, 2000);
+  }
+
+  intToStr(num): String {
+    return String(num);
+  }
+  
   getIconColor(platform) {
     var color = "#000";
     switch (platform) {

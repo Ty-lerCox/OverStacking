@@ -6,6 +6,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Keyboard } from '@ionic-native/keyboard';
 
 import { MyApp } from './app.component';
 
@@ -60,6 +61,7 @@ export const config = {
   providers: [
     StatusBar,
     SplashScreen,
+    Keyboard,
     Geolocation,
     {
       provide: HAMMER_GESTURE_CONFIG,

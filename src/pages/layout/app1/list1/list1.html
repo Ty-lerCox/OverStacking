@@ -33,6 +33,9 @@
 </ion-header>
 
 <ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
   <!--*********** Fab  ***********-->
     <ion-fab bottom right>
@@ -61,7 +64,7 @@
     <ion-row>
         <ion-col center text-center> 
           <button ion-button icon-left full clear color="secondary">     
-            <div>Join Stack</div>
+            <div>Join Stack<br><small *ngIf="stack.data.cost > 0">{{ intToStr(stack.data.cost) }} <ion-icon name="beer"></ion-icon> per win</small></div>
           </button>
         </ion-col>
     </ion-row>

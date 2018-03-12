@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, LoadingController, AlertController } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthData } from '../../../../providers/auth-data';
 
 
 
@@ -14,16 +14,13 @@ export class RegisterPage {
   public registerForm;
   public backgroundImage: any = "./assets/bg2.jpg";
 
-  constructor(public nav: NavController, public authData: AuthData, public fb: FormBuilder, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
+  constructor(public nav: NavController, public afAuth: AngularFireAuth, public fb: FormBuilder, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
     
       let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
       
       this.registerForm = fb.group({
             email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEXP)])],
-            profileName: ['', Validators.compose([Validators.minLength(2), Validators.required])],
-            phone: ['', Validators.compose([Validators.minLength(6), Validators.required])],
-            password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
-
+            password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
       });
   
   }
@@ -41,14 +38,12 @@ export class RegisterPage {
       });
       loadingPopup.present();
 
-      this.authData.registerUser(
-          this.registerForm.value.profileName, 
+      this.afAuth.auth.createUserWithEmailAndPassword(
           this.registerForm.value.email, 
-          this.registerForm.value.password,
-          this.registerForm.value.phone)
+          this.registerForm.value.password)
       .then(() => {
           loadingPopup.dismiss();
-          this.nav.setRoot('AfterLoginPage');
+          this.nav.setRoot('Category1Page');
       }, (error) => { 
          var errorMessage: string = error.message;
           loadingPopup.dismiss();

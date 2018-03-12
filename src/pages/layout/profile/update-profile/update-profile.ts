@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, NavOptions } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { IProfile } from '../../../../app/app.interfaces';
+import { Keyboard } from '@ionic-native/keyboard';
 
 /**
  * Generated class for the UpdateProfilePage page.
@@ -19,11 +20,15 @@ import { IProfile } from '../../../../app/app.interfaces';
 export class UpdateProfilePage {
   profile: IProfile;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, public afs: AngularFirestore) {
+  constructor(private keyboard: Keyboard, public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, public afs: AngularFirestore) {
   }
 
   ionViewDidLoad() {
     this.getProfileData();
+  }
+
+  handleEnter() {
+    this.keyboard.close()
   }
 
   async getProfileData() {

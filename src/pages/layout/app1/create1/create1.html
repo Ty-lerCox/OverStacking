@@ -15,17 +15,17 @@
 
 <ion-content padding>
   <p>
-    {{error}}
+    {{ code }}
   </p>
   <ion-list *ngIf="stack" style="padding-bottom:75px;">
     <ion-item>
       <ion-label color="black" stacked>Stack Owner</ion-label>
-      <ion-input (keyup.enter)="handleEnter()"type="text" [(ngModel)]="stack.owner" [disabled]="true"></ion-input>
+      <ion-input type="text" [(ngModel)]="stack.owner" [disabled]="true"></ion-input>
     </ion-item>
 
     <ion-item>
         <ion-label color="black" stacked>Stack Description</ion-label>
-        <ion-input (keyup.enter)="handleEnter()"type="text" [(ngModel)]="stack.description"></ion-input>
+        <ion-input type="text" [(ngModel)]="stack.description"></ion-input>
       </ion-item>
 
     <ion-item *ngIf="ID == '1'">

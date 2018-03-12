@@ -31,6 +31,7 @@ export class Create1Page {
   isEdit: boolean;
   stackID;
   user;
+  code;
   disabled = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public afs: AngularFirestore, public afAuth: AngularFireAuth, private keyboard: Keyboard) {
@@ -80,8 +81,16 @@ export class Create1Page {
     }
   }
 
-  handleEnter() {
-    this.keyboard.close();
+  ionViewDidLoad() {
+    document.addEventListener('keydown', (key) => {this.handleEnter(key)} );
+  }
+
+  handleEnter(key) {
+    console.log(key.keyCode);
+    if (key.keyCode == 13) {
+      this.keyboard.close();
+    }
+    this.code = key.keyCode;
   }
 
   createStack() {

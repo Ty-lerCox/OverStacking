@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, NavOptions } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, NavOptions, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { IProfile } from '../../../../app/app.interfaces';
@@ -20,16 +20,20 @@ import { Keyboard } from '@ionic-native/keyboard';
 export class UpdateProfilePage {
   profile: IProfile;
 
-  constructor(private keyboard: Keyboard, public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, public afs: AngularFirestore) {
+  constructor(private toast: ToastController, private keyboard: Keyboard, public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, public afs: AngularFirestore) {
   }
 
   ionViewDidLoad() {
     this.getProfileData();
+    document.addEventListener('keydown', (key) => {this.handleEnter(key)} );
   }
 
-  handleEnter() {
-    this.keyboard.close();
-    console.log("test");
+  handleEnter(key) {
+    //console.log(key.keyCode);
+    if (key.keyCode == 13) {
+      this.keyboard.close();
+    }
+    //this.code = key.keyCode;
   }
 
   async getProfileData() {
@@ -51,13 +55,43 @@ export class UpdateProfilePage {
 
   update() {
     console.log(this.profile);
+
+    this.afs.collection("profiles", ref => ref.where("Username", "==", this.profile.Username)).snapshotChanges().subscribe(data => {
+      if (data[0] == null) {
+        this.updateProfile();
+        return;
+      }
+      var id = data[0].payload.doc.id;
+      // if username exists
+      if (id) {
+        console.log("user exists");
+        // if ID == user's ID
+        if (id == this.afAuth.auth.currentUser.uid) {
+          // allow update
+            this.updateProfile();
+        } else {
+          // disallow update
+          this.toast.create({
+            message: "Username is already taken.",
+            duration: 2000
+          }).present();
+        }
+      } else {
+        // allow update
+        console.log(id);
+        this.updateProfile();
+      }
+    });
+  }
+
+  async updateProfile() {
     this.afs.collection("profiles").doc<IProfile>(this.afAuth.auth.currentUser.uid).set(this.profile)
-      .then(() => {
-        let options = {
-          action: "updatedProfile"
-        } as NavOptions;
-        this.navCtrl.setRoot("Category1Page", options);
-      })
+    .then(() => {
+      let options = {
+        action: "updatedProfile"
+      } as NavOptions;
+      this.navCtrl.setRoot("Category1Page", options);
+    });
   }
 
   cancel() {

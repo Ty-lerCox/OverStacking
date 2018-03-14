@@ -86,11 +86,11 @@ export class Create1Page {
   }
 
   handleEnter(key) {
-    console.log(key.keyCode);
+    //console.log(key.keyCode);
     if (key.keyCode == 13) {
       this.keyboard.close();
     }
-    this.code = key.keyCode;
+    //this.code = key.keyCode;
   }
 
   createStack() {
